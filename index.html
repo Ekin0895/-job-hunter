@@ -74,8 +74,10 @@ function companyLogo(j){const name=String(j.company||'').trim();const key=normTe
 function jobCard(j){return `<div class="job"><div class="job-ident">${companyLogo(j)}<div><strong>${safe(j.company)} · ${safe(j.role)}</strong><div class="meta">${safe(j.location)} · ${safe(j.contract)} · ${euro(j.salaryMin)} – ${euro(j.salaryMax)}</div><div class="meta"><span class="pill">${safe(j.status)}</span> ${safe(j.remote||'')}</div></div></div><button class="btn secondary" data-edit="${safe(j.id)}">Ouvrir</button></div>`}
 function actionLinks(j){
  const valid=u=>/^https?:\/\/[^\s]+$/i.test(u||'');
+ const mismatchedKlox=String(j.company||'').toLowerCase().trim()==='klox'&&/assistant-e-account-manager-culture-edition-cinema-stage/i.test(j.url||'');
  return `<div class="toolbar" style="margin-top:14px">
- ${valid(j.url)?`<a class="actionlink" href="${safe(j.url)}" target="_blank" rel="noopener noreferrer">↗ Postuler</a>`:`<button class="btn secondary" data-edit="${safe(j.id)}" title="Ajouter le lien de l'annonce">＋ Ajouter le lien pour postuler</button>`}
+ ${mismatchedKlox?'<span class="meta" role="alert" style="color:#f3bc75">⚠ Lien incorrect : cette annonce Klox concerne un stage Account Manager, pas le poste SEO/GEO.</span>':''}
+ ${valid(j.url)&&!mismatchedKlox?`<a class="actionlink" href="${safe(j.url)}" target="_blank" rel="noopener noreferrer">↗ Postuler</a>`:`<button class="btn secondary" data-edit="${safe(j.id)}" title="Ajouter le lien de l'annonce">＋ Ajouter le lien pour postuler</button>`}
  ${valid(j.pdf)?`<a class="actionlink alt" href="${safe(j.pdf)}" target="_blank" rel="noopener noreferrer">↓ Ouvrir le CV PDF</a>`:''}
  ${valid(j.cv)?`<a class="actionlink alt" href="${safe(j.cv)}" target="_blank" rel="noopener noreferrer">▤ Modifier le CV</a>`:`<button class="btn secondary" data-edit="${safe(j.id)}">＋ Associer un CV</button>`}
  ${!valid(j.letter)?`<button class="btn secondary" data-letter="${safe(j.id)}">${j.letterText?'↓ Lettre / PDF':'✎ Préparer la lettre'}</button>`:''}
