@@ -1,0 +1,347 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Job Hunter — V9</title><meta name="theme-color" content="#0a1120"><meta name="description" content="Job Hunter, ton espace privé pour suivre tes candidatures."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Job Hunter"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;color:#e9f0fc;background:#0a1120;font-size:14px}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:#87b8ff}aside{width:244px;position:fixed;inset:0 auto 0 0;background:#101c2e;border-right:1px solid #27384e;padding:26px 16px;display:flex;flex-direction:column;gap:8px}.brand{font-size:24px;font-weight:850;letter-spacing:-.8px;margin:6px 10px 35px}.brand b{color:#57e6af}.nav{width:100%;text-align:left;background:transparent;border:0;color:#aebbd1;padding:14px 16px;border-radius:12px;font-weight:650}.nav.active,.nav:hover{background:#183d42;color:#74f2be}.aside-bottom{margin-top:auto;padding:14px;color:#91a3b9;font-size:12px;line-height:1.7}main{margin-left:244px;padding:28px 38px;max-width:1800px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:30px}h1{font-size:30px;letter-spacing:-1px;margin:0 0 6px}h2{font-size:18px;margin:0 0 18px}p.sub{color:#9baac0;margin:0}.toolbar{display:flex;gap:10px;flex-wrap:wrap}.btn{background:#57dfac;color:#06271e;border:0;border-radius:11px;padding:11px 15px;font-weight:750}.btn:hover{filter:brightness(1.1)}.btn.secondary{background:#1b2a41;color:#dce8f7;border:1px solid #34455c}.btn.danger{background:#4c2431;color:#ffc3ce}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.card{background:#111f33;border:1px solid #283c55;border-radius:19px;padding:22px;box-shadow:0 10px 24px #00000018}.metric-label{color:#a7b8cc;font-size:13px}.metric-value{font-size:38px;font-weight:850;letter-spacing:-1px;margin-top:14px}.metric-foot{font-size:12px;color:#5fe5b2;margin-top:8px}.section{margin-top:28px}.two{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}.bar{height:10px;background:#26394f;border-radius:8px;overflow:hidden;margin:12px 0}.bar span{display:block;background:#58dfa9;height:100%;border-radius:8px}.muted{color:#a0aec3}.job{padding:16px;border:1px solid #2b3e56;border-radius:14px;background:#14243a;margin:10px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}.job strong{font-size:15px}.job .meta{color:#98abc1;margin-top:7px;font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#22473f;color:#83f1bd;font-size:11px;font-weight:750}.pill.yellow{background:#4b3a22;color:#f5ca79}.filters{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 20px}.field{background:#111e31;color:#e9f0fc;border:1px solid #35485e;border-radius:10px;padding:11px;min-width:180px}.search{flex:1;min-width:230px}.kanban{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:14px;overflow:auto;padding-bottom:10px}.lane{background:#101c2e;border:1px solid #26394f;border-radius:16px;padding:14px;min-height:300px}.lane h3{font-size:13px;margin:4px 0 20px}.lane .job{display:block;cursor:grab}.lane .job button{margin-top:10px}.lane.dragover{border-color:#57dfac;background:#16322f}.empty{color:#8194ad;font-size:13px;padding:15px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}label{display:block;color:#b7c8d9;font-size:12px;margin-bottom:6px}input,textarea,select{width:100%}textarea{min-height:100px;resize:vertical}dialog{background:#111e30;color:#eef5ff;border:1px solid #3b536b;border-radius:20px;padding:26px;width:min(780px,95vw);max-height:90vh;overflow:auto}dialog::backdrop{background:#020916cc}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.hidden{display:none!important}.notice{padding:14px;border-radius:12px;background:#193347;border:1px solid #35556b;color:#bfd4e4;font-size:13px;margin-top:18px}.actionlink{display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;border-radius:10px;text-decoration:none;font-weight:750;font-size:12px;background:#58dfac;color:#07271e}.actionlink.alt{background:#203c52;color:#b6d8fa}.actionlink:hover{filter:brightness(1.12)}.actiondisabled{display:inline-flex;padding:10px 13px;border-radius:10px;background:#263346;color:#8e9eb3;font-size:12px}.link{background:none;border:0;color:#8ec2ff;text-decoration:underline;padding:0}.foot{color:#8ba0b7;font-size:12px;margin-top:24px}.statusdot{display:inline-block;width:8px;height:8px;background:#59e0ae;border-radius:50%;margin-right:6px}@media(max-width:1050px){aside{width:76px;padding:20px 8px}.brand{font-size:16px;margin:6px 0 35px}.brand .full,.nav .full,.aside-bottom{display:none}main{margin-left:76px;padding:22px}.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}@media(max-width:650px){aside{position:static;width:100%;height:auto;flex-direction:row;overflow:auto;padding:8px}.brand{margin:10px}.nav{width:auto;white-space:nowrap}main{margin:0;padding:18px}.grid,.form-grid{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.card{padding:16px}}
+
+.sync-panel{margin-top:17px;padding:15px;border:1px solid #2b435a;border-radius:12px;background:#10263a}.sync-panel input{width:100%;margin:9px 0}.sync-small{color:#9bb3c8;font-size:12px;line-height:1.6;margin-top:7px}
+
+/* V7 — navigation hiérarchique et cartes d'offres */
+:root{--jh-accent:#55dfad}aside{gap:5px}.brand{margin-bottom:30px}.nav{transition:background .16s ease,color .16s ease;display:flex;align-items:center;gap:9px}.nav-parent .chevron{margin-left:auto;font-size:18px;color:#8aa1b8}.nav-children{border-left:1px solid #2c4157;margin:0 0 10px 27px;padding:2px 0 3px 9px;display:grid;gap:2px}.nav-child{padding:11px 10px;font-size:12.5px;border-radius:9px;color:#96abc2}.child-dot{width:6px;height:6px;border-radius:50%;border:1px solid currentColor;flex:none}.nav-child.active .child-dot{background:var(--jh-accent);border-color:var(--jh-accent)}.nav-children.collapsed{display:none}.nav-parent .chevron{transition:transform .2s}.nav-parent[aria-expanded="false"] .chevron{transform:rotate(-90deg)}.nav:focus-visible,.btn:focus-visible,.actionlink:focus-visible{outline:2px solid var(--jh-accent);outline-offset:3px}
+.offer-card{margin-bottom:13px;transition:border-color .18s,transform .18s;background:linear-gradient(130deg,#122238 0%,#101e31 100%)}.offer-card:hover{border-color:#40647b}.offer-top{display:flex;align-items:flex-start;gap:16px}.company-logo{height:52px;width:52px;flex:none;display:grid;place-items:center;border:1px solid #365068;border-radius:14px;background:#f4f8fa;color:#14273a;overflow:hidden;font-size:17px;font-weight:850;letter-spacing:-.5px}.company-logo img{width:100%;height:100%;object-fit:contain;padding:7px}.offer-main{min-width:0;flex:1}.offer-company{font-size:13px;color:#a8bbd0;font-weight:650;margin:4px 0}.offer-role{font-size:18px;letter-spacing:-.35px;margin:3px 0 9px;line-height:1.35}.offer-info{display:flex;flex-wrap:wrap;gap:7px 16px;color:#aabbd0;font-size:12px;margin:11px 0 0}.offer-info span{white-space:normal}.offer-divider{height:1px;background:#273d53;margin:17px 0 14px}.offer-card .toolbar{margin-top:0!important}.offer-card .btn.secondary{white-space:nowrap}.offer-card .pill{margin-bottom:5px}.offer-card .offer-notes{font-size:12px;margin:12px 0 0;line-height:1.5}.job .company-logo{height:39px;width:39px;border-radius:11px;font-size:13px}.job-ident{display:flex;gap:11px;align-items:center;min-width:0}.job-ident>div:last-child{min-width:0}
+@media(max-width:1050px) and (min-width:651px){.nav-children{margin-left:10px;padding-left:4px}.nav-child{justify-content:center}.nav-child .child-dot{width:9px;height:9px}.nav-parent .chevron{display:none}}
+@media(max-width:650px){.nav-children{display:flex;margin:0;padding:0;border:0;gap:2px}.nav-child{padding:10px}.nav-child .child-dot{display:none}.nav-parent .chevron{display:none}.offer-top{flex-wrap:wrap}.offer-card .offer-top>.btn{margin-left:auto}.company-logo{width:44px;height:44px}}
+
+/* V9 — dashboard, navigation tactile et finition */
+:root{--accent:#55dfad;--muted:#98acc3}body{background:radial-gradient(ellipse at 60% -25%,#18354a 0,transparent 48%),#0a1120}main{max-width:1600px}header{margin-bottom:25px}.card{box-shadow:0 8px 30px #030a171f}.card:hover{border-color:#34526b}.metric-value{font-variant-numeric:tabular-nums}.metric-card{position:relative;overflow:hidden}.metric-card:after{content:'';position:absolute;right:-23px;top:-28px;width:95px;height:95px;border-radius:50%;background:#58dfa912}.metric-card .metric-foot{color:#90a9c0}.chart-card{min-width:0}.chart-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.chart-title h2{margin:0}.chart-kicker{color:#8da9bf;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:800}.chart-svg{display:block;width:100%;height:auto;overflow:visible}.chart-gridline{stroke:#2b3e53;stroke-dasharray:3 6}.chart-axis{fill:#8ea4ba;font:11px Inter,system-ui,sans-serif}.chart-point{fill:#5ce4b3;stroke:#0f2032;stroke-width:3}.chart-legend{display:flex;gap:15px;flex-wrap:wrap;color:#aabdd0;font-size:12px;margin-top:16px}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.donut-layout{display:flex;align-items:center;justify-content:space-evenly;gap:22px;flex-wrap:wrap}.donut{width:175px;height:175px;border-radius:50%;position:relative;flex:none}.donut:after{content:'';position:absolute;inset:31px;border-radius:50%;background:#111f33}.donut-center{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center}.donut-center strong{font-size:30px}.donut-center span{font-size:11px;color:#9bb0c5}.donut-legend{display:grid;gap:12px;min-width:165px;flex:1}.donut-item{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#aebfd1}.donut-item b{color:#edf7ff}.chart-empty{display:grid;place-items:center;min-height:175px;color:#9ab0c7;font-size:13px;text-align:center}.quick-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.quick-row button{flex:1}.import-box{padding:18px;border:1px solid #31506a;background:linear-gradient(110deg,#122e3b,#122036);border-radius:16px;margin-bottom:18px}.import-box h2{margin:0 0 7px}.import-grid{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.import-grid input{flex:1;min-width:180px}.import-hint{font-size:12px;color:#a6b8c9;margin-top:10px;line-height:1.5}.import-feedback{font-size:12px;color:#80e6b9;margin-top:10px}.import-modal textarea{min-height:140px}.import-modal .field{margin:6px 0 13px}.import-modal p{line-height:1.6}.nav-parent.parent-context{color:#b7e5d5}.logo-initials{font-size:inherit}.offer-card{border-radius:17px}.btn,.actionlink{transition:filter .18s,transform .18s}.btn:active,.actionlink:active{transform:scale(.98)}.mobile-nav{display:none}.nav-parent .chevron{pointer-events:none}.mobile-only{display:none}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}
+@media(max-width:650px){body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}aside{display:none}main{padding:19px 15px;max-width:100%}header{gap:14px;margin-bottom:19px}h1{font-size:25px}.toolbar{gap:8px}header .toolbar{width:100%}header .toolbar .btn{flex:1;padding:12px 9px;font-size:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric-card{padding:16px}.metric-value{font-size:29px;margin-top:8px}.metric-label{font-size:11px}.two{grid-template-columns:1fr}.card{padding:17px;border-radius:15px}.section{margin-top:17px}.mobile-nav{display:flex;position:fixed;z-index:30;bottom:0;left:0;right:0;align-items:stretch;justify-content:space-around;background:#0e1d2df5;backdrop-filter:blur(18px);border-top:1px solid #34516b;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -8px 25px #0005}.mobile-nav button{border:0;background:transparent;color:#91a8be;display:grid;gap:4px;place-items:center;min-width:0;flex:1;font-size:10px;padding:6px 1px;border-radius:11px}.mobile-nav button .mob-icon{font-size:21px;line-height:1.1}.mobile-nav button.active{color:#67ebba;background:#1a393d}.mobile-only{display:block}.offer-top{gap:11px}.offer-card .offer-top>.btn{width:100%}.offer-role{font-size:16px}.offer-card .toolbar .btn,.offer-card .toolbar .actionlink{flex:1;font-size:11px}.import-grid .btn{width:100%}.kanban{grid-template-columns:repeat(5,260px);scroll-snap-type:x mandatory}.lane{scroll-snap-align:start}.filters .field{width:100%;min-width:0}.donut{width:150px;height:150px}.donut:after{inset:28px}dialog{width:calc(100vw - 18px);padding:17px;border-radius:17px;max-height:90dvh}.form-grid{grid-template-columns:1fr}.import-modal .toolbar .btn{flex:1}}
+</style></head><body>
+<aside><div class="brand">◈ <span class="full">JOB <b>HUNTER</b></span></div>
+<button class="nav active" data-view="dashboard">▦ <span class="full">Vue d'ensemble</span></button>
+<button class="nav nav-parent" data-view="offers" aria-expanded="true" aria-controls="offer-submenu">⌕ <span class="full">Offres d'emploi</span><span class="chevron" aria-hidden="true">⌄</span></button>
+<div class="nav-children" id="offer-submenu">
+<button class="nav nav-child" data-view="marketing"><span class="child-dot"></span><span class="full">Marketing</span></button>
+<button class="nav nav-child" data-view="commercial"><span class="child-dot"></span><span class="full">Commercial</span></button>
+<button class="nav nav-child" data-view="admin"><span class="child-dot"></span><span class="full">Admin / polyvalent</span></button>
+</div>
+<button class="nav" data-view="pipeline">▤ <span class="full">Pipeline</span></button>
+<button class="nav" data-view="documents">▣ <span class="full">Documents</span></button>
+<button class="nav" data-view="settings">⚙ <span class="full">Paramètres & données</span></button>
+<div class="aside-bottom"><span class="statusdot"></span><span id="cloudSidebar">Mode local · Synchronisation désactivée</span><br>Gratuit · Mac & mobile</div></aside>
+<main><header><div><h1 id="page-title">Vue d'ensemble</h1><p class="sub" id="page-sub">Ton espace personnel pour piloter ta recherche d'emploi.</p></div><div class="toolbar"><button class="btn secondary" id="export">↓ Sauvegarder</button><button class="btn secondary" id="newFromUrl">↗ Depuis un lien</button><button class="btn" id="new">+ Ajouter une offre</button></div></header>
+<section id="dashboard">
+<div class="grid" id="metrics"></div><div class="two section"><div class="card chart-card"><div class="chart-title"><div><div class="chart-kicker">Activité</div><h2>Candidatures par semaine</h2></div><span class="pill" id="trendSummary">—</span></div><div id="trendChart"></div></div><div class="card chart-card"><div class="chart-title"><div><div class="chart-kicker">Répartition</div><h2>Catégories recherchées</h2></div></div><div id="categoryChart"></div></div></div><div class="two section"><div class="card chart-card"><div class="chart-title"><div><div class="chart-kicker">Avancement</div><h2>Étapes de recrutement</h2></div></div><div id="funnelChart"></div></div><div class="card chart-card"><div class="chart-title"><div><div class="chart-kicker">Résultats</div><h2>Indicateurs de conversion</h2></div></div><div id="conversionChart"></div></div></div>
+<div class="two section"><div class="card"><h2>Opportunités à examiner</h2><div id="priority"></div></div><div class="card"><h2>Répartition des candidatures</h2><div id="breakdown"></div></div></div>
+<div class="card section"><h2>Ton workflow</h2><p class="muted">1. Ajoute une offre réelle et son lien de candidature. 2. Associe ton CV Google Docs, ton PDF et ta lettre. 3. Change le statut au fil de tes démarches. 4. Sauvegarde régulièrement tes données en JSON.</p><div class="notice">L’ajout par URL tente de lire les pages publiques ; certains sites bloquent cette lecture. La génération automatique de PDF n’est pas connectée. L'application n'affiche jamais de fausses offres ni de faux documents.</div></div>
+</section>
+<section id="offers" class="hidden"><div class="import-box"><h2>Ajouter une offre à partir d’un lien</h2><div class="import-grid"><input id="quickUrl" type="url" class="field" placeholder="Colle un lien LinkedIn, WTTJ, Indeed…"><button class="btn" id="quickImport">Analyser le lien</button></div><div class="import-hint">Préremplissage automatique quand la page est accessible. Si la plateforme bloque la lecture, colle le texte de l’annonce pour compléter la fiche.</div></div><div class="filters"><input id="query" class="field search" placeholder="Rechercher une entreprise, un poste…"><select id="statusFilter" class="field"><option value="">Tous les statuts</option></select><select id="sort" class="field"><option value="recent">Plus récentes</option><option value="company">Entreprise A–Z</option><option value="salary">Salaire décroissant</option></select></div><div id="offer-list"></div></section>
+<section id="marketing" class="hidden"></section><section id="commercial" class="hidden"></section><section id="admin" class="hidden"></section>
+<section id="pipeline" class="hidden"><p class="muted" style="margin-bottom:18px">Déplace les cartes entre les colonnes pour modifier leur statut. Tu peux aussi utiliser les boutons « Étape suivante ».</p><div class="kanban" id="lanes"></div></section>
+<section id="documents" class="hidden"><div class="card"><h2>Bibliothèque de candidatures</h2><div id="doc-list"></div><div class="notice">Les liens Google Docs, PDF et lettres doivent être renseignés pour chaque offre. Aucun fichier n'est créé automatiquement dans cette version.</div></div></section>
+<section id="settings" class="hidden"><div class="two"><div class="card"><h2>Mes critères de recherche</h2><p class="muted">Paramètres indépendants pour chaque catégorie.</p><select id="prefCategory" class="field" style="margin:15px 0"><option>Marketing</option><option>Commercial</option><option>Admin / polyvalent</option></select><div id="preferences"></div><div class="toolbar" style="margin-top:15px"><button class="btn" id="savePrefs">Enregistrer</button><button class="btn secondary" id="copySearch">Copier les consignes de recherche</button><button class="btn secondary" id="downloadSearch">Exporter critères JSON</button></div><div class="notice">Important : les réglages de cette application locale ne sont pas automatiquement accessibles à la recherche quotidienne ChatGPT. Copie les consignes dans ChatGPT pour mettre à jour la recherche.</div></div><div class="card"><h2>Synchronisation Google Sheets</h2><p class="muted">Importe automatiquement les nouvelles offres depuis l’onglet CANDIDATURES. Les candidatures existantes et leurs statuts sont préservés.</p><div class="sync-panel"><label for="syncEndpoint">Adresse de l’application Web Google Apps Script</label><input id="syncEndpoint" class="field" type="url" placeholder="https://script.google.com/macros/s/…/exec"><div class="toolbar"><button class="btn" id="saveSync" type="button">Enregistrer l’adresse</button><button class="btn secondary" id="runSync" type="button">↻ Synchroniser maintenant</button></div><div id="syncState" class="sync-small" aria-live="polite">Synchronisation non configurée.</div><div class="sync-small">Une fois configurée, vérification au démarrage puis toutes les 30 minutes lorsque l’application reste ouverte. Les données sont enregistrées localement et synchronisées avec Supabase lorsque tu es connecté.</div></div></div><div class="card cloud-card"><h2>☁ Synchronisation Mac ↔ téléphone</h2><p class="muted">Connecte-toi avec ton email pour accéder aux candidatures sur tous tes appareils. Les données locales ne sont jamais envoyées sans ton accord.</p><div id="cloudState" class="notice">Non connecté.</div><div id="cloudLogin"><label for="cloudEmail">Adresse email</label><input class="field" id="cloudEmail" type="email" autocomplete="email" placeholder="toi@exemple.fr"><label for="cloudPassword" style="margin-top:12px">Mot de passe (6 caractères minimum)</label><input class="field" id="cloudPassword" type="password" autocomplete="current-password" placeholder="Mot de passe Supabase"><div class="toolbar" style="margin-top:14px"><button class="btn" id="cloudSignIn" type="button">Se connecter</button><button class="btn secondary" id="cloudSignUp" type="button">Créer mon compte</button></div></div><div id="cloudConnected" class="hidden"><div class="toolbar" style="margin-top:14px"><button class="btn secondary" id="cloudPull" type="button">↻ Actualiser depuis le cloud</button><button class="btn" id="cloudMigrate" type="button">↑ Importer mes offres locales</button><button class="btn secondary" id="cloudLogout" type="button">Se déconnecter</button></div><p class="sync-small">Les modifications sont sauvegardées sur Supabase après chaque action. Vérification sur les autres appareils toutes les 15 secondes lorsque l'onglet est ouvert. L'import local ajoute les offres manquantes sans remplacer les fiches déjà présentes.</p></div></div><div class="card"><h2>Gestion des données</h2><p class="muted">Tes offres sont conservées dans le stockage local de ce navigateur, sur cet appareil. Une sauvegarde JSON te permet de les transférer ou de les restaurer.</p><div class="toolbar" style="margin-top:20px"><button class="btn secondary" id="importButton">↑ Importer JSON</button><button class="btn secondary" id="export2">↓ Exporter JSON</button><button class="btn danger" id="reset">Effacer les données</button></div><input type="file" id="importFile" accept=".json,application/json" class="hidden"><div class="notice">Attention : supprimer les données du navigateur peut effacer ton historique local. Exporte un fichier JSON régulièrement.</div></div></div></section>
+<div class="foot">JOB HUNTER · Les données locales sont conservées · Cloud uniquement après connexion</div></main>
+<nav class="mobile-nav" aria-label="Navigation principale"><button data-mobile="dashboard" class="active"><span class="mob-icon">▦</span>Accueil</button><button data-mobile="offers"><span class="mob-icon">⌕</span>Offres</button><button data-mobile="pipeline"><span class="mob-icon">▤</span>Pipeline</button><button data-mobile="documents"><span class="mob-icon">▣</span>Documents</button><button data-mobile="settings"><span class="mob-icon">⚙</span>Réglages</button></nav>
+<dialog id="urlDialog" class="import-modal"><div class="dialog-head"><h2 style="margin:0">Importer une annonce</h2><button type="button" class="btn secondary" id="closeUrlDialog">✕</button></div><p class="muted">Colle l’adresse de l’offre. Job Hunter tente d’en extraire les informations publiques. Tu peux aussi coller le texte de l’annonce si l’accès est bloqué.</p><label for="urlInput">Adresse de l’offre</label><input class="field" id="urlInput" type="url" placeholder="https://…"><label for="urlPaste">Texte de l’annonce (facultatif)</label><textarea class="field" id="urlPaste" placeholder="Colle ici le titre, l’entreprise et la description si besoin…"></textarea><div id="urlImportStatus" class="import-feedback" aria-live="polite"></div><div class="toolbar"><button type="button" class="btn" id="analyzeUrl">Analyser et préparer la fiche</button><button type="button" class="btn secondary" id="manualUrl">Continuer manuellement</button></div></dialog>
+<dialog id="letterDialog"><div class="dialog-head"><h2 style="margin:0">Lettre de motivation</h2><button class="btn secondary" id="closeLetter">✕</button></div><p class="muted" id="letterJob"></p><textarea id="letterText" class="field" style="min-height:360px;line-height:1.7;margin:16px 0" placeholder="Rédige ou colle ici ta lettre personnalisée…"></textarea><div class="toolbar"><button class="btn" id="saveLetter">Enregistrer la lettre</button><button class="btn secondary" id="downloadLetter">↓ Télécharger .txt</button><button class="btn secondary" id="printLetter">↓ Imprimer / PDF</button></div><div class="notice">La lettre est enregistrée dans tes candidatures et synchronisée après connexion. Le PDF utilise la fonction « Enregistrer au format PDF » de ton navigateur.</div></dialog><dialog id="editor"><div class="dialog-head"><h2 id="editorTitle" style="margin:0">Ajouter une offre</h2><button class="btn secondary" id="close">✕</button></div><form id="jobform"><div class="form-grid" id="fields"></div><div class="toolbar" style="margin-top:20px"><button class="btn" type="submit">Enregistrer</button><button class="btn danger hidden" type="button" id="deleteJob">Supprimer</button></div></form></dialog>
+<script>
+const KEY='jobhunter-local-v1',PREF='jobhunter-prefs-v1';
+const categories=['Marketing','Commercial','Admin / polyvalent'];
+const stages=['À examiner','CV à préparer','Prêt à postuler','Candidature envoyée','Entretien RH','Entretien technique','Offre reçue','Refus','Archivée'];
+const lanes=['À examiner','CV à préparer','Prêt à postuler','Candidature envoyée','Entretien RH'];
+const cv='https://docs.google.com/document/d/13Ar-T2yDTKlqWOPi94xUrjoH31FxJYj6zKFgfvCcujE/edit?tab=t.fbmba2xvti1l';
+const example={category:'Marketing',id:'klox-seo-2026',company:'Klox',role:'Consultant SEO/GEO',contract:'CDI',location:'Paris — Sentier',salaryMin:'36000',salaryMax:'43000',remote:'2 jours/semaine',source:'Offre transmise',url:'',cv, pdf:'',letter:'',status:'À examiner',priority:'Haute',found:'2026-11-06',applied:'',notes:'72 briefs SEO, 108 optimisations ; expérience GEO à approfondir. Salaire minimum annoncé sous le seuil souhaité. Lien direct à vérifier.'};
+let jobs,editing=null;
+try{const saved=JSON.parse(localStorage.getItem(KEY));jobs=Array.isArray(saved)?saved.map(j=>({...j,category:j.category||'Marketing'})):[example]}catch{jobs=[example]}
+const defaults={
+ 'Marketing':{contract:'CDI',salary:'40000',target:'45000',commute:'45 min depuis Écouen',remote:'2 jours/semaine',roles:'Consultant SEO junior, Consultant GEO junior, Growth Marketing, chef de projet marketing digital',location:'Paris / Île-de-France',experience:'Junior',exclude:'Stage, alternance, senior',sources:'LinkedIn, Welcome to the Jungle, HelloWork, Indeed, France Travail'},
+ 'Commercial':{contract:'CDI',salary:'',target:'',commute:'45 min depuis Écouen',remote:'2 jours souhaités',roles:'Business Developer, SDR, commercial B2B, chargé de clientèle',location:'Paris / Val-d’Oise',experience:'Junior',exclude:'Stage, alternance',sources:'LinkedIn, Welcome to the Jungle, HelloWork, Indeed, France Travail'},
+ 'Admin / polyvalent':{contract:'CDI',salary:'',target:'',commute:'45 min depuis Écouen',remote:'Indifférent',roles:'Assistant administratif, employé polyvalent, support',location:'Val-d’Oise / Paris',experience:'Débutant ou junior',exclude:'Stage, alternance',sources:'LinkedIn, Welcome to the Jungle, HelloWork, Indeed, France Travail'}
+};
+let prefs;try{const old=JSON.parse(localStorage.getItem(PREF)||'{}');prefs=Object.fromEntries(categories.map(c=>[c,{...defaults[c],...(old[c]||(!old.Marketing&&c==='Marketing'?old:{}))}]))}catch{prefs=JSON.parse(JSON.stringify(defaults))}
+const $=id=>document.getElementById(id);
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const link=(url,label)=>/^https?:\/\/\S+$/i.test(url||'')?`<a href="${safe(url)}" target="_blank" rel="noopener noreferrer">${safe(label)} ↗</a>`:`<span class="muted">${safe(label)} non disponible</span>`;
+const euro=v=>v?Number(v).toLocaleString('fr-FR')+' €':'Non précisé';
+const save=()=>{localStorage.setItem(KEY,JSON.stringify(jobs));render();if(cloudUser)queueCloudSave()};
+function render(){
+ $('metrics').innerHTML=[['Offres identifiées',jobs.length],['À examiner',jobs.filter(j=>j.status==='À examiner').length],['Candidatures envoyées',jobs.filter(j=>j.status==='Candidature envoyée').length],['Entretiens',jobs.filter(j=>j.status?.startsWith('Entretien')).length]].map(([label,n])=>`<div class="card metric-card"><div class="metric-label">${label}</div><div class="metric-value">${n}</div><div class="metric-foot">● Données actualisées</div></div>`).join('');
+ const pending=jobs.filter(j=>!['Refus','Archivée','Offre reçue','Candidature envoyée'].includes(j.status)).slice(0,5);
+ $('priority').innerHTML=pending.length?pending.map(j=>jobCard(j)).join(''):'<p class="empty">Aucune opportunité à examiner.</p>';
+ $('breakdown').innerHTML=stages.filter(s=>jobs.some(j=>j.status===s)).map(s=>{const n=jobs.filter(j=>j.status===s).length;return `<div style="display:flex;justify-content:space-between;margin-top:16px"><span>${safe(s)}</span><strong>${n}</strong></div><div class="bar"><span style="width:${Math.round(100*n/Math.max(1,jobs.length))}%"></span></div>`}).join('')||'<p class="empty">Aucune donnée.</p>';
+ renderCharts();renderOffers();renderLanes();renderDocs();renderCategories();
+}
+const logoDomains={'klox':'klox.fr','datashake':'datashake.fr','jja':'jja-sa.com','happypal':'happypal.fr','extracadabra':'extracadabra.com'};
+function companyLogo(j){const name=String(j.company||'').trim();const key=normText(name);const domain=logoDomains[key];const initials=name.split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'•';return `<span class="company-logo" title="${safe(name)}"><span class="logo-initials">${safe(initials)}</span>${domain?`<img loading="lazy" alt="" src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128" onload="if(this.naturalWidth>32){this.previousElementSibling.style.display='none'}else{this.remove()}" onerror="this.remove()">`:''}</span>`}
+function jobCard(j){return `<div class="job"><div class="job-ident">${companyLogo(j)}<div><strong>${safe(j.company)} · ${safe(j.role)}</strong><div class="meta">${safe(j.location)} · ${safe(j.contract)} · ${euro(j.salaryMin)} – ${euro(j.salaryMax)}</div><div class="meta"><span class="pill">${safe(j.status)}</span> ${safe(j.remote||'')}</div></div></div><button class="btn secondary" data-edit="${safe(j.id)}">Ouvrir</button></div>`}
+function actionLinks(j){
+ const valid=u=>/^https?:\/\/[^\s]+$/i.test(u||'');
+ return `<div class="toolbar" style="margin-top:14px">
+ ${valid(j.url)?`<a class="actionlink" href="${safe(j.url)}" target="_blank" rel="noopener noreferrer">↗ Postuler</a>`:`<button class="btn secondary" data-edit="${safe(j.id)}" title="Ajouter le lien de l'annonce">＋ Ajouter le lien pour postuler</button>`}
+ ${valid(j.pdf)?`<a class="actionlink alt" href="${safe(j.pdf)}" target="_blank" rel="noopener noreferrer">↓ Ouvrir le CV PDF</a>`:''}
+ ${valid(j.cv)?`<a class="actionlink alt" href="${safe(j.cv)}" target="_blank" rel="noopener noreferrer">▤ Modifier le CV</a>`:`<button class="btn secondary" data-edit="${safe(j.id)}">＋ Associer un CV</button>`}
+ ${!valid(j.letter)?`<button class="btn secondary" data-letter="${safe(j.id)}">${j.letterText?'↓ Lettre / PDF':'✎ Préparer la lettre'}</button>`:''}
+ ${valid(j.letter)?`<a class="actionlink alt" href="${safe(j.letter)}" target="_blank" rel="noopener noreferrer">▤ Modifier la lettre</a>`:''}
+ </div>`
+}
+function offerTile(j){
+ return `<article class="card offer-card"><div class="offer-top">${companyLogo(j)}<div class="offer-main"><span class="pill ${j.priority==='Haute'?'yellow':''}">${safe(j.category||'Marketing')} · ${safe(j.priority||'Moyenne')}</span><div class="offer-company">${safe(j.company)}</div><h2 class="offer-role">${safe(j.role)}</h2><div class="offer-info"><span>⌖ ${safe(j.location||'Lieu non précisé')}</span><span>▤ ${safe(j.contract||'Contrat à vérifier')}</span><span>◷ ${safe(j.remote||'Télétravail non précisé')}</span></div><div class="offer-info"><span>€ ${euro(j.salaryMin)} – ${euro(j.salaryMax)}</span><span>● ${safe(j.status)}</span></div></div><button class="btn secondary" data-edit="${safe(j.id)}">Détails / Modifier</button></div>${j.notes?`<p class="muted offer-notes">${safe(j.notes)}</p>`:''}<div class="offer-divider"></div>${actionLinks(j)}</article>`
+}
+function renderOffers(){
+ const q=$('query').value.toLocaleLowerCase('fr');const status=$('statusFilter').value;
+ let list=jobs.filter(j=>(j.company+' '+j.role+' '+j.location).toLocaleLowerCase('fr').includes(q)&&(!status||j.status===status));
+ const sort=$('sort').value;
+ list.sort((a,b)=>sort==='company'?a.company.localeCompare(b.company):sort==='salary'?Number(b.salaryMax||0)-Number(a.salaryMax||0):String(b.found||'').localeCompare(String(a.found||'')));
+ $('offer-list').innerHTML=list.length?list.map(offerTile).join(''):'<div class="card empty">Aucune offre ne correspond aux filtres.</div>';
+}
+function renderCategories(){
+ const mappings={marketing:'Marketing',commercial:'Commercial',admin:'Admin / polyvalent'};
+ Object.entries(mappings).forEach(([id,cat])=>{
+  const list=jobs.filter(j=>(j.category||'Marketing')===cat);
+  const sent=list.filter(j=>['Candidature envoyée','Entretien RH','Entretien technique','Offre reçue','Refus'].includes(j.status)).length;
+  const ready=list.filter(j=>j.status==='Prêt à postuler').length;
+  const interviews=list.filter(j=>j.status?.startsWith('Entretien')).length;
+  $(id).innerHTML=`<div class="toolbar" style="margin-bottom:18px"><button class="btn secondary" data-criteria="${safe(cat)}">⚙ Critères de recherche</button></div><div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+  ${[['Offres trouvées',list.length],['Prêtes à postuler',ready],['Candidatures / réponses',sent],['Entretiens',interviews]].map(([label,n])=>`<div class="card"><div class="metric-label">${label}</div><div class="metric-value">${n}</div></div>`).join('')}</div>
+  <div class="section"><h2>Offres ${safe(cat.toLowerCase())}</h2>${list.length?list.map(offerTile).join(''):'<div class="card empty">Aucune offre dans cette catégorie. Clique sur « Ajouter une offre » pour commencer.</div>'}</div>`;
+ });
+}
+function renderLanes(){
+ $('lanes').innerHTML=lanes.map(s=>`<div class="lane" data-lane="${safe(s)}"><h3>${safe(s)} <span class="pill">${jobs.filter(j=>j.status===s).length}</span></h3>${jobs.filter(j=>j.status===s).map(j=>`<div class="job" draggable="true" data-drag="${safe(j.id)}"><strong>${safe(j.company)}</strong><div class="meta">${safe(j.role)}</div><button class="btn secondary" data-next="${safe(j.id)}">Étape suivante →</button><button class="link" style="margin-left:10px" data-edit="${safe(j.id)}">Éditer</button></div>`).join('')||'<div class="empty">Dépose une offre ici</div>'}</div>`).join('');
+ document.querySelectorAll('[data-drag]').forEach(e=>e.addEventListener('dragstart',ev=>ev.dataTransfer.setData('text/plain',e.dataset.drag)));
+ document.querySelectorAll('[data-lane]').forEach(e=>{e.addEventListener('dragover',ev=>{ev.preventDefault();e.classList.add('dragover')});e.addEventListener('dragleave',()=>e.classList.remove('dragover'));e.addEventListener('drop',ev=>{ev.preventDefault();e.classList.remove('dragover');const j=jobs.find(x=>x.id===ev.dataTransfer.getData('text/plain'));if(j){j.status=e.dataset.lane;save()}})});
+}
+function renderDocs(){$('doc-list').innerHTML=jobs.map(j=>`<div class="card" style="margin-bottom:12px"><strong>${safe(j.company)} — ${safe(j.role)}</strong>${actionLinks(j)}</div>`).join('')||'<p class="empty">Aucune candidature.</p>'}
+let activeLetter=null;
+function openLetter(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeLetter=id;$('letterJob').textContent=j.company+' — '+j.role;$('letterText').value=j.letterText||'';$('letterDialog').showModal()}
+$('closeLetter').onclick=()=>$('letterDialog').close();
+$('saveLetter').onclick=()=>{const j=jobs.find(x=>x.id===activeLetter);if(j){j.letterText=$('letterText').value;save();alert(cloudUser?'Lettre enregistrée, synchronisation en cours.':'Lettre enregistrée localement.')}};
+$('downloadLetter').onclick=()=>{const j=jobs.find(x=>x.id===activeLetter);if(!j)return;j.letterText=$('letterText').value;save();if(!j.letterText.trim()){alert('Rédige une lettre avant de la télécharger.');return}downloadBlob(new Blob([j.letterText],{type:'text/plain;charset=utf-8'}),'lettre-'+j.company.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.txt')};
+$('printLetter').onclick=()=>{const j=jobs.find(x=>x.id===activeLetter);if(!j)return;j.letterText=$('letterText').value;save();if(!j.letterText.trim()){alert('Rédige une lettre avant de créer un PDF.');return}const w=window.open('','_blank');if(!w){alert('Autorise les fenêtres pop-up pour imprimer la lettre.');return}w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Lettre — '+safe(j.company)+'</title><style>body{font:12pt/1.65 Arial,sans-serif;max-width:700px;margin:65px auto;white-space:pre-wrap;color:#111}@media print{body{margin:20mm auto}}</style></head><body>'+safe(j.letterText)+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),250)};
+const specs=[['category','Catégorie','category'],['company','Entreprise','text',true],['role','Poste','text',true],['contract','Contrat','text'],['location','Localisation','text'],['salaryMin','Salaire minimum (€)','number'],['salaryMax','Salaire maximum (€)','number'],['remote','Télétravail','text'],['source','Source','text'],['url','Lien direct pour postuler (https://…)','url'],['cv','Lien du CV Google Docs','url'],['pdf','Lien du PDF individuel','url'],['letter','Lien de la lettre de motivation','url'],['status','Statut','select'],['priority','Priorité','select'],['found','Date de découverte','date'],['applied','Date de candidature','date'],['notes','Notes, points forts et vigilance','textarea']];
+function openEditor(id){
+ editing=id||null;const j=jobs.find(x=>x.id===id)||{category:(['marketing','commercial','admin'].includes(document.querySelector('[data-view].active')?.dataset.view)?{marketing:'Marketing',commercial:'Commercial',admin:'Admin / polyvalent'}[document.querySelector('[data-view].active').dataset.view]:'Marketing'),status:'À examiner',priority:'Moyenne',found:new Date().toISOString().slice(0,10)};
+ $('editorTitle').textContent=editing?'Modifier une offre':'Ajouter une offre';
+ $('fields').innerHTML=specs.map(([key,label,type,required])=>`<div style="${key==='notes'?'grid-column:1/-1':''}"><label for="f-${key}">${label}</label>${type==='textarea'?`<textarea class="field" id="f-${key}">${safe(j[key]||'')}</textarea>`:type==='category'?`<select class="field" id="f-${key}">${categories.map(c=>`<option ${j.category===c?'selected':''}>${safe(c)}</option>`).join('')}</select>`:type==='select'?`<select class="field" id="f-${key}">${(key==='status'?stages:['Haute','Moyenne','Basse']).map(s=>`<option ${j[key]===s?'selected':''}>${safe(s)}</option>`).join('')}</select>`:`<input class="field" id="f-${key}" type="${type}" ${required?'required':''} value="${safe(j[key]||'')}">`}</div>`).join('');
+ $('deleteJob').classList.toggle('hidden',!editing);$('editor').showModal();
+}
+$('jobform').onsubmit=e=>{e.preventDefault();const v={...(jobs.find(x=>x.id===editing)||{}),id:editing||'job-'+Date.now()};specs.forEach(([k])=>v[k]=$('f-'+k).value.trim());if(editing){jobs=jobs.map(j=>j.id===editing?v:j)}else jobs.unshift(v);$('editor').close();save()};
+$('deleteJob').onclick=()=>{if(editing&&confirm('Supprimer définitivement cette offre ?')){jobs=jobs.filter(j=>j.id!==editing);$('editor').close();save()}};
+$('new').onclick=()=>openEditor();$('close').onclick=()=>$('editor').close();
+document.addEventListener('click',e=>{const criteria=e.target.closest('[data-criteria]');if(criteria){document.querySelector('[data-view="settings"]').click();$('prefCategory').value=criteria.dataset.criteria;renderPrefs();return}const lt=e.target.closest('[data-letter]');if(lt){openLetter(lt.dataset.letter);return}const edit=e.target.closest('[data-edit]');if(edit)openEditor(edit.dataset.edit);const next=e.target.closest('[data-next]');if(next){const j=jobs.find(x=>x.id===next.dataset.next);if(j){j.status=lanes[Math.min(lanes.length-1,lanes.indexOf(j.status)+1)];save()}}});
+const offerParent=document.querySelector('.nav-parent');
+const offerChildren=document.getElementById('offer-submenu');
+const offerViews=new Set(['offers','marketing','commercial','admin']);
+function updateOfferMenu(view){if(offerViews.has(view)){offerChildren.classList.remove('collapsed');offerParent.setAttribute('aria-expanded','true')}offerParent.classList.toggle('parent-context',['marketing','commercial','admin'].includes(view))}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));const view=b.dataset.view;updateOfferMenu(view);['dashboard','offers','marketing','commercial','admin','pipeline','documents','settings'].forEach(v=>$(v).classList.toggle('hidden',v!==view));const labels={dashboard:["Vue d'ensemble","Ton espace personnel pour piloter ta recherche d'emploi."],offers:["Offres d'emploi","Toutes tes opportunités, au même endroit."],marketing:["Marketing","SEO, GEO, Growth et marketing digital."],commercial:["Commercial","Développement commercial et relation client."],admin:["Admin / polyvalent","Administration, support et postes polyvalents."],pipeline:["Pipeline","Fais avancer tes candidatures étape par étape."],documents:["Documents","CV, PDF et lettres liés à chaque opportunité."],settings:["Paramètres & données","Préférences et sauvegardes locales."]};$('page-title').textContent=labels[view][0];$('page-sub').textContent=labels[view][1];document.querySelectorAll('[data-mobile]').forEach(x=>x.classList.toggle('active',x.dataset.mobile===view||(view==='marketing'&&x.dataset.mobile==='offers')||(view==='commercial'&&x.dataset.mobile==='offers')||(view==='admin'&&x.dataset.mobile==='offers')))});
+document.querySelectorAll('[data-mobile]').forEach(b=>b.onclick=()=>{document.querySelector('[data-view="'+b.dataset.mobile+'"]').click();window.scrollTo({top:0,behavior:'smooth'})});
+$('statusFilter').innerHTML+=[...stages].map(s=>`<option>${safe(s)}</option>`).join('');
+['query','statusFilter','sort'].forEach(id=>$(id).addEventListener(id==='query'?'input':'change',renderOffers));
+const prefSpec=[['contract','Contrat'],['roles','Postes recherchés'],['salary','Salaire minimum (€)'],['target','Salaire cible (€)'],['location','Zone géographique'],['commute','Trajet maximum'],['remote','Télétravail'],['experience','Expérience souhaitée'],['exclude','Exclusions'],['sources','Sources de recherche']];
+function renderPrefs(){const v=prefs[$('prefCategory').value];$('preferences').innerHTML=prefSpec.map(([k,label])=>`<div style="margin-bottom:12px"><label>${label}</label><input class="field" id="pref-${k}" value="${safe(v[k]||'')}"></div>`).join('')}
+function savePrefs(){const cat=$('prefCategory').value;prefs[cat]=Object.fromEntries(prefSpec.map(([k])=>[k,$('pref-'+k).value.trim()]));localStorage.setItem(PREF,JSON.stringify(prefs))}
+function brief(){return 'Recherche des offres réelles et actuellement disponibles. Ne pas inventer de liens, salaires ni disponibilités. Dédupliquer les annonces. Pour chaque offre, fournir entreprise, poste, lieu, salaire si connu, télétravail si connu et URL DIRECTE vérifiée pour postuler.\n\n'+categories.map(c=>'CATÉGORIE '+c+'\n'+prefSpec.map(([k,label])=>label+' : '+(prefs[c][k]||'non imposé')).join('\n')).join('\n\n')}
+function downloadBlob(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
+$('prefCategory').onchange=renderPrefs;renderPrefs();
+$('savePrefs').onclick=()=>{savePrefs();alert('Critères enregistrés pour '+$('prefCategory').value)};
+$('copySearch').onclick=async()=>{savePrefs();try{await navigator.clipboard.writeText(brief());alert('Consignes copiées. Colle-les dans ChatGPT pour actualiser la recherche quotidienne.')}catch{downloadBlob(new Blob([brief()],{type:'text/plain'}),'consignes-recherche.txt')}};
+$('downloadSearch').onclick=()=>{savePrefs();downloadBlob(new Blob([JSON.stringify({format:'jobhunter-criteria-v1',categories:prefs},null,2)],{type:'application/json'}),'job-hunter-criteres.json')};
+function exportData(){const blob=new Blob([JSON.stringify({format:'jobhunter-local-v1',exportedAt:new Date().toISOString(),jobs,prefs},null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='job-hunter-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
+$('export').onclick=exportData;$('export2').onclick=exportData;
+$('importButton').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(d.format!=='jobhunter-local-v1'||!Array.isArray(d.jobs)||!d.jobs.every(j=>typeof j.id==='string'&&typeof j.company==='string'&&typeof j.role==='string'))throw Error('Format invalide');if(cloudUser){const add=d.jobs.filter(j=>!jobs.some(x=>x.id===j.id||syncIdentity(x)===syncIdentity(j)));if(!confirm(`Ajouter ${add.length} offres absentes du cloud, sans écraser les offres existantes ?`))return;jobs.push(...add)}else{if(!confirm(`Remplacer les ${jobs.length} offres actuelles par les ${d.jobs.length} offres de la sauvegarde ?`))return;jobs=d.jobs;}prefs=Object.fromEntries(categories.map(c=>[c,{...defaults[c],...(d.prefs?.[c]||{})}]));localStorage.setItem(PREF,JSON.stringify(prefs));save();if(!cloudUser)location.reload()}catch(err){alert('Import impossible : '+err.message)}finally{e.target.value=''}};
+const SYNC_KEY='jobhunter-sync-endpoint-v1', SYNC_LAST='jobhunter-sync-last-v1';
+let syncRunning=false;
+function syncStatus(msg){$('syncState').textContent=msg}
+function normText(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function syncIdentity(j){const u=String(j.url||'').trim().replace(/\?.*$/,'').replace(/\/$/,'');return u&&/^https?:/.test(u)?'url:'+u.toLowerCase():'name:'+normText(j.company)+'|'+normText(j.role)}
+function readSyncJSONP(endpoint){return new Promise((resolve,reject)=>{let script;const callback='jobHunterSync_'+Date.now()+'_'+Math.floor(Math.random()*1e6);let finished=false;const timer=setTimeout(()=>finish(new Error('Délai dépassé (20 secondes).')),20000);function finish(error,value){if(finished)return;finished=true;clearTimeout(timer);if(script)script.remove();delete window[callback];error?reject(error):resolve(value)}window[callback]=data=>finish(null,data);script=document.createElement('script');script.src=endpoint+(endpoint.includes('?')?'&':'?')+'callback='+encodeURIComponent(callback)+'&t='+Date.now();script.onerror=()=>finish(new Error('Adresse inaccessible ou déploiement non autorisé.'));document.head.appendChild(script)})}
+async function syncOffers(silent=false){if(syncRunning)return;const endpoint=localStorage.getItem(SYNC_KEY)||'';if(!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec(?:\?.*)?$/.test(endpoint)){if(!silent)syncStatus('Renseigne d’abord l’adresse du déploiement Apps Script.');return}syncRunning=true;syncStatus('Synchronisation en cours…');try{const data=await readSyncJSONP(endpoint);if(!data||data.ok!==true||!Array.isArray(data.jobs))throw Error(data?.error||'Réponse invalide');let added=0,completed=0;const seen=new Map();jobs.forEach(j=>seen.set(syncIdentity(j),j));for(const remote of data.jobs){if(!remote.company||!remote.role)continue;const key=syncIdentity(remote);const existing=seen.get(key)||jobs.find(j=>normText(j.company)===normText(remote.company)&&normText(j.role)===normText(remote.role));if(existing){for(const field of ['url','cv','letter','salaryMin','salaryMax','remote','location','source']){if((!existing[field]||((field==='cv'||field==='letter')&&existing[field]!==remote[field]&&/^https?:\/\//.test(remote[field])))&&remote[field]){existing[field]=remote[field];completed++}}continue}const fresh={category:categories.includes(remote.category)?remote.category:'Marketing',id:'sheet-'+normText(remote.company+'-'+remote.role).replace(/ /g,'-')+'-'+Date.now()+'-'+added,company:String(remote.company),role:String(remote.role),contract:'CDI',location:String(remote.location||''),salaryMin:String(remote.salaryMin||''),salaryMax:String(remote.salaryMax||''),remote:String(remote.remote||''),source:String(remote.source||'Google Sheets'),url:String(remote.url||''),cv:String(remote.cv||''),pdf:'',letter:String(remote.letter||''),status:'À examiner',priority:'Moyenne',found:String(remote.found||new Date().toISOString().slice(0,10)),applied:'',notes:''};jobs.push(fresh);seen.set(key,fresh);added++}localStorage.setItem(SYNC_LAST,new Date().toISOString());if(added||completed)save();syncStatus('Dernière synchronisation : '+new Date().toLocaleString('fr-FR')+' · '+added+' nouvelle(s) offre(s), '+completed+' champ(s) complété(s).');}catch(err){syncStatus('Échec de la synchronisation : '+err.message)}finally{syncRunning=false}}
+$('syncEndpoint').value=localStorage.getItem(SYNC_KEY)||'';
+$('saveSync').onclick=()=>{const u=$('syncEndpoint').value.trim();if(u&&!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec(?:\?.*)?$/.test(u)){syncStatus('Utilise l’URL /exec du déploiement Google Apps Script.');return}if(u)localStorage.setItem(SYNC_KEY,u);else localStorage.removeItem(SYNC_KEY);syncStatus(u?'Adresse enregistrée. Lance une synchronisation pour tester.':'Synchronisation désactivée.')};
+$('runSync').onclick=()=>syncOffers();
+if(localStorage.getItem(SYNC_KEY)){syncStatus('Synchronisation configurée.');syncOffers(true)}
+setInterval(()=>{if(localStorage.getItem(SYNC_KEY))syncOffers(true)},30*60*1000);
+$('reset').onclick=()=>{if(cloudUser){alert('Pour éviter une suppression accidentelle sur tous les appareils, déconnecte-toi avant de réinitialiser le stockage local.');return}if(confirm('Effacer toutes les offres enregistrées sur cet appareil ? Cette action est irréversible sans sauvegarde.')){jobs=[];save()}};
+
+/* V8 — Supabase : API publique avec authentification et RLS. Aucune clé secrète. */
+const CLOUD_URL='https://prfspiiroskzxeqrtbkz.supabase.co';
+const CLOUD_KEY='sb_publishable_Ms3TZ1yuIqpBGUrT6vV81Q_rioEdRWZ';
+const CLOUD_SESSION_KEY='jh-cloud-session-v1';
+let cloudSession=null,cloudUser=null,cloudBusy=false,cloudPending=false,cloudTimer=null,cloudSnapshot=new Map(),cloudError=false;
+const cloudState=$('cloudState');
+function cloudMessage(msg){cloudState.textContent=msg;$('cloudSidebar').textContent=cloudUser?'☁ Connecté · synchronisation active':'Mode local · Synchronisation désactivée'}
+function cloudUI(){const logged=!!cloudUser;$('cloudLogin').classList.toggle('hidden',logged);$('cloudConnected').classList.toggle('hidden',!logged);cloudMessage(logged?'Connecté : '+cloudUser.email+' · Synchronisation active.':'Non connecté. Les candidatures restent sur cet appareil.')}
+async function cloudRequest(path,options={},authenticated=true){
+ const headers={'apikey':CLOUD_KEY,'Content-Type':'application/json',...(options.headers||{})};
+ if(authenticated&&cloudSession?.access_token)headers.Authorization='Bearer '+cloudSession.access_token;
+ const response=await fetch(CLOUD_URL+path,{...options,headers});
+ const raw=await response.text();let data;try{data=raw?JSON.parse(raw):null}catch{data=raw}
+ if(!response.ok)throw Error(data?.msg||data?.error_description||data?.message||data?.error||('Erreur HTTP '+response.status));
+ return data;
+}
+async function cloudRefresh(){
+ if(!cloudSession?.refresh_token)throw Error('Session expirée. Reconnecte-toi.');
+ const next=await cloudRequest('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:cloudSession.refresh_token})},false);
+ cloudSession=next;localStorage.setItem(CLOUD_SESSION_KEY,JSON.stringify(next));return next;
+}
+async function cloudReady(){if(!cloudSession)return false;if(Date.now()/1000 > (cloudSession.expires_at||0)-90)await cloudRefresh();return true}
+async function cloudAuth(action){
+ const email=$('cloudEmail').value.trim(),password=$('cloudPassword').value;
+ if(!email||password.length<6){cloudMessage('Renseigne ton email et un mot de passe de 6 caractères minimum.');return}
+ cloudMessage(action==='signup'?'Création du compte…':'Connexion…');
+ try{
+  const route=action==='signup'?'/auth/v1/signup?redirect_to='+encodeURIComponent('https://ekin0895.github.io/-job-hunter/'):'/auth/v1/token?grant_type=password';
+  const res=await cloudRequest(route,{method:'POST',body:JSON.stringify({email,password})},false);
+  if(!res.access_token){cloudMessage('Compte créé. Confirme ton adresse via le lien reçu par email, puis connecte-toi.');return}
+  cloudSession=res;cloudSession.expires_at=Math.floor(Date.now()/1000)+(res.expires_in||3600);localStorage.setItem(CLOUD_SESSION_KEY,JSON.stringify(cloudSession));
+  cloudUser=res.user;await cloudStart();
+ }catch(err){cloudMessage('Connexion impossible : '+err.message)}
+}
+async function cloudFetch(){
+ await cloudReady();return await cloudRequest('/rest/v1/job_offers?select=local_id,data,updated_at&order=updated_at.desc&limit=10000');
+}
+function cloudRowsToMap(rows){return new Map(rows.map(r=>[r.local_id,r.data]))}
+function cloudReplace(rows){
+ cloudSnapshot=cloudRowsToMap(rows);
+ jobs=rows.map(r=>({...r.data,id:r.local_id}));
+ localStorage.setItem(KEY,JSON.stringify(jobs));render();
+}
+async function cloudPull(){
+ if(!cloudUser||cloudBusy||cloudPending)return;
+ cloudBusy=true;
+ try{const rows=await cloudFetch();cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
+ catch(err){cloudError=true;cloudMessage('Synchronisation interrompue : '+err.message+' · modifications locales conservées.')}
+ finally{cloudBusy=false}
+}
+function queueCloudSave(){
+ if(!cloudUser)return;cloudPending=true;
+ if(cloudTimer)clearTimeout(cloudTimer);
+ cloudTimer=setTimeout(cloudPush,650);
+ cloudMessage('Modifications en attente de sauvegarde…');
+}
+async function cloudPush(){
+ if(!cloudUser||cloudBusy){cloudTimer=setTimeout(cloudPush,1200);return}
+ cloudBusy=true;
+ try{
+  await cloudReady();
+  const current=new Map(jobs.map(j=>[j.id,j]));
+  const changes=[...current].filter(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)));
+  const removed=[...cloudSnapshot.keys()].filter(id=>!current.has(id));
+  if(changes.length){
+   const payload=changes.map(([id,data])=>({user_id:cloudUser.id,local_id:id,data}));
+   await cloudRequest('/rest/v1/job_offers?on_conflict=user_id,local_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(payload)});
+  }
+  for(const id of removed)await cloudRequest('/rest/v1/job_offers?local_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
+  for(const [id,j] of changes)cloudSnapshot.set(id,structuredClone(j));
+  for(const id of removed)cloudSnapshot.delete(id);
+  cloudPending=false;cloudError=false;
+  cloudMessage('☁ Sauvegardé · '+new Date().toLocaleTimeString('fr-FR'));
+ }catch(err){cloudError=true;cloudMessage('Échec de sauvegarde cloud : '+err.message+' · données locales préservées. Clique sur « Actualiser » après résolution.');}
+ finally{cloudBusy=false}
+}
+async function cloudStart(){
+ try{
+  await cloudReady();
+  const user=await cloudRequest('/auth/v1/user');cloudUser=user;cloudUI();
+  const rows=await cloudFetch();
+  // Ne jamais uploader automatiquement les anciennes données locales. La base distante fait autorité après connexion.
+  // Conserver une copie séparée avant le premier remplacement.
+  const backupKey='jh-before-cloud-'+cloudUser.id;
+  if(!localStorage.getItem(backupKey))localStorage.setItem(backupKey,JSON.stringify(jobs));
+  cloudReplace(rows);cloudMessage('☁ Connecté · '+rows.length+' offre(s) dans le cloud. Pour transférer tes anciennes offres, utilise « Importer mes offres locales ».');
+ }catch(err){cloudMessage('Erreur cloud : '+err.message)}
+}
+$('cloudSignIn').onclick=()=>cloudAuth('signin');
+$('cloudSignUp').onclick=()=>cloudAuth('signup');
+$('cloudPull').onclick=async()=>{if(cloudPending){await cloudPush();if(cloudPending)return}await cloudPull()};
+$('cloudMigrate').onclick=async()=>{
+ if(!cloudUser)return;
+ const backup=JSON.parse(localStorage.getItem('jh-before-cloud-'+cloudUser.id)||'[]');
+ if(!Array.isArray(backup)||!backup.length){cloudMessage('Aucune ancienne offre locale trouvée sur ce navigateur. Utilise « Importer JSON » après une sauvegarde de ton ancien site.');return}
+ const additions=backup.filter(j=>j?.id&&!cloudSnapshot.has(j.id));
+ if(!additions.length){cloudMessage('Toutes les offres locales sont déjà présentes dans le cloud.');return}
+ if(!confirm('Ajouter '+additions.length+' ancienne(s) offre(s) à ton cloud ? Les offres déjà présentes ne seront pas écrasées.'))return;
+ jobs.push(...additions);save();await cloudPush();
+};
+$('cloudLogout').onclick=async()=>{
+ if(cloudPending){await cloudPush();if(cloudPending){alert('Sauvegarde cloud non terminée. Réessaie avant de te déconnecter.');return}}
+ try{await cloudRequest('/auth/v1/logout',{method:'POST'})}catch{}
+ cloudSession=null;cloudUser=null;cloudSnapshot=new Map();localStorage.removeItem(CLOUD_SESSION_KEY);
+ // Après déconnexion, ne pas conserver les candidatures cloud dans l'interface ou le stockage local.
+ jobs=[];localStorage.removeItem(KEY);render();cloudUI();
+};
+try{cloudSession=JSON.parse(localStorage.getItem(CLOUD_SESSION_KEY)||'null')}catch{}
+if(cloudSession){cloudStart()}else cloudUI();
+setInterval(()=>{if(cloudUser&&!cloudPending&&!cloudBusy)cloudPull()},15000);
+window.addEventListener('online',()=>{if(cloudUser&&cloudPending)cloudPush();else if(cloudUser)cloudPull()});
+
+
+/* V9 — graphiques légers sans librairie ni service payant */
+const chartPalette=['#55dfad','#6a9cf9','#f3bc75','#c19af5','#f27c9b'];
+const chartEscape=safe;
+function renderCharts(){
+ const sentStatuses=new Set(['Candidature envoyée','Entretien RH','Entretien technique','Offre reçue','Refus']);
+ const sent=jobs.filter(j=>sentStatuses.has(j.status)||!!j.applied);
+ const now=new Date();const weeks=[];
+ for(let k=7;k>=0;k--){const end=new Date(now);end.setHours(23,59,59,999);end.setDate(end.getDate()-7*k);const start=new Date(end);start.setDate(start.getDate()-6);start.setHours(0,0,0,0);const n=sent.filter(j=>{const d=new Date((j.applied||j.found||'')+'T12:00:00');return !isNaN(d)&&d>=start&&d<=end}).length;weeks.push({n,label:start.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})})}
+ const max=Math.max(1,...weeks.map(w=>w.n));const pts=weeks.map((w,i)=>[38+i*67,157-w.n/max*116]);
+ const line=pts.map(([x,y],i)=>(i?'L':'M')+x+','+y).join(' ');const area=line+' L507,157 L38,157 Z';
+ const grids=[0,.5,1].map(f=>`<line class="chart-gridline" x1="38" x2="507" y1="${157-f*116}" y2="${157-f*116}"/><text class="chart-axis" x="28" y="${161-f*116}" text-anchor="end">${Math.round(f*max)}</text>`).join('');
+ $('trendChart').innerHTML=`<svg class="chart-svg" viewBox="0 0 540 205" role="img" aria-label="Candidatures envoyées par semaine">${grids}<path d="${area}" fill="#55dfad" fill-opacity=".10"/><path d="${line}" fill="none" stroke="#55dfad" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${pts.map(([x,y],i)=>`<circle class="chart-point" cx="${x}" cy="${y}" r="5"><title>${weeks[i].n} candidature(s), semaine du ${weeks[i].label}</title></circle><text class="chart-axis" x="${x}" y="180" text-anchor="middle">${weeks[i].label}</text>`).join('')}</svg>`;
+ $('trendSummary').textContent=sent.length+' envoyée(s)';
+ const cats=categories.map((name,i)=>({name,n:jobs.filter(j=>(j.category||'Marketing')===name).length,color:chartPalette[i]}));const total=Math.max(1,jobs.length);let pos=0;const segments=cats.filter(c=>c.n).map(c=>{const start=pos/total*360;pos+=c.n;return `${c.color} ${start}deg ${pos/total*360}deg`});
+ $('categoryChart').innerHTML=jobs.length?`<div class="donut-layout"><div class="donut" style="background:conic-gradient(${segments.join(',')})"><div class="donut-center"><strong>${jobs.length}</strong><span>offres</span></div></div><div class="donut-legend">${cats.map(c=>`<div class="donut-item"><span><i class="legend-dot" style="background:${c.color}"></i>${chartEscape(c.name)}</span><b>${c.n}</b></div>`).join('')}</div></div>`:'<div class="chart-empty">Ajoute une offre pour voir la répartition.</div>';
+ const groups=[['À examiner',jobs.filter(j=>j.status==='À examiner').length],['Préparation',jobs.filter(j=>['CV à préparer','Prêt à postuler'].includes(j.status)).length],['Envoyées',jobs.filter(j=>j.status==='Candidature envoyée').length],['Entretiens',jobs.filter(j=>j.status?.startsWith('Entretien')).length],['Décisions',jobs.filter(j=>['Offre reçue','Refus'].includes(j.status)).length]];
+ const groupMax=Math.max(1,...groups.map(g=>g[1]));
+ $('funnelChart').innerHTML=groups.map(([name,n],i)=>`<div style="margin:0 0 14px"><div style="display:flex;justify-content:space-between;gap:10px;color:#b7c8d9;font-size:12px;margin-bottom:7px"><span>${name}</span><b>${n}</b></div><div class="bar" style="height:12px;margin:0"><span style="width:${n?Math.max(3,100*n/groupMax):0}%;background:${chartPalette[i]}"></span></div></div>`).join('');
+ const interviewed=jobs.filter(j=>j.status?.startsWith('Entretien')||j.status==='Offre reçue').length;
+ const offers=jobs.filter(j=>j.status==='Offre reçue').length;
+ const percent=(n,d)=>d?Math.round(n/d*100)+' %':'—';
+ $('conversionChart').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="padding:18px;background:#15283c;border:1px solid #2b425a;border-radius:13px"><div class="metric-label">Passage en entretien</div><div class="metric-value" style="font-size:29px">${percent(interviewed,sent.length)}</div><div class="muted" style="font-size:11px">${interviewed} / ${sent.length} candidatures</div></div><div style="padding:18px;background:#15283c;border:1px solid #2b425a;border-radius:13px"><div class="metric-label">Offres reçues</div><div class="metric-value" style="font-size:29px">${percent(offers,sent.length)}</div><div class="muted" style="font-size:11px">${offers} / ${sent.length} candidatures</div></div></div><p class="muted" style="font-size:12px;line-height:1.6;margin-top:17px">Calcul basé sur les statuts actuels, sans historique des changements. Les pourcentages ne remplacent pas un suivi chronologique.</p>`;
+}
+/* V9 — ajout depuis URL, sans promesse d'accès aux pages protégées */
+function cleanUrl(raw){try{const u=new URL(raw.trim());if(!['https:','http:'].includes(u.protocol)||!u.hostname.includes('.'))return null;return u.toString()}catch{return null}}
+function extractOfferFromText(text,url){
+ const result={url,source:'Lien importé',found:new Date().toISOString().slice(0,10)};
+ const host=new URL(url).hostname.toLowerCase();
+ result.source=host.includes('linkedin')?'LinkedIn':host.includes('welcometothejungle')?'Welcome to the Jungle':host.includes('indeed')?'Indeed':host.includes('hellowork')?'HelloWork':host.includes('francetravail')?'France Travail':host;
+ const flat=String(text||'').replace(/\r/g,'');const lines=flat.split(/\n/).map(x=>x.trim()).filter(Boolean);
+ const salary=flat.match(/(?:€\s*)?(\d{2,3})\s*(?:k|K)(?:\s*€)?\s*(?:[-–à]\s*(?:€\s*)?(\d{2,3})\s*(?:k|K))?/);
+ if(salary){result.salaryMin=String(Number(salary[1])*1000);if(salary[2])result.salaryMax=String(Number(salary[2])*1000)}
+ if(/\bCDI\b/i.test(flat))result.contract='CDI';else if(/\bCDD\b/i.test(flat))result.contract='CDD';else if(/\bstage\b/i.test(flat))result.contract='Stage';
+ const remote=flat.match(/(?:télétravail|remote|hybride)[^\n.]{0,80}/i);if(remote)result.remote=remote[0].slice(0,80);
+ const place=flat.match(/(?:localisation|lieu|location|basé(?:e)? à)\s*[:\-]?\s*([^\n]{3,75})/i);if(place)result.location=place[1].trim();
+ if(lines.length){const title=lines.find(x=>x.length>5&&x.length<130&&!/^(description|à propos|missions|entreprise|offre d'emploi)/i.test(x));if(title)result.role=title}
+ if(host.includes('welcometothejungle')){const m=new URL(url).pathname.match(/\/companies\/([^/]+)\/jobs\/([^/]+)/);if(m){result.company=m[1].replace(/-\d+$/,'').replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());if(!result.role)result.role=m[2].replace(/_[^_]+$/,'').replace(/-/g,' ')}}
+ const co=flat.match(/(?:entreprise|company|employeur)\s*[:\-]\s*([^\n]{2,65})/i);if(co)result.company=co[1].trim();
+ if(!result.role){const slug=new URL(url).pathname.split('/').filter(Boolean).pop()||'';if(slug&&!/^\d+$/.test(slug)&&!host.includes('linkedin')&&!host.includes('indeed'))result.role=decodeURIComponent(slug).replace(/[_-]/g,' ').slice(0,90)}
+ return result;
+}
+function extractFromHTML(html,url){
+ const doc=new DOMParser().parseFromString(html,'text/html');let parsed={};
+ for(const node of doc.querySelectorAll('script[type="application/ld+json"]')){try{const value=JSON.parse(node.textContent);const list=Array.isArray(value)?value:[value];for(const item of list){const candidates=item['@graph']||[item];for(const c of candidates){if(String(c['@type']||'').includes('JobPosting')){parsed.role=c.title||parsed.role;parsed.company=c.hiringOrganization?.name||parsed.company;parsed.location=c.jobLocation?.address?.addressLocality||parsed.location;parsed.contract=c.employmentType||parsed.contract;parsed.notes=String(c.description||'').replace(/<[^>]*>/g,' ').slice(0,1300);break}}}}catch{}}
+ const meta=(selector)=>doc.querySelector(selector)?.content||'';
+ parsed.role=parsed.role||meta('meta[property="og:title"]')||doc.title||'';
+ parsed.company=parsed.company||meta('meta[property="og:site_name"]')||'';
+ return {...extractOfferFromText(doc.body?.innerText||doc.body?.textContent||'',url),...parsed};
+}
+let urlDraft=null;
+function openUrlImport(prefill=''){$('urlInput').value=prefill;$('urlPaste').value='';$('urlImportStatus').textContent='';$('urlDialog').showModal()}
+$('newFromUrl').onclick=()=>openUrlImport();$('quickImport').onclick=()=>openUrlImport($('quickUrl').value);
+$('closeUrlDialog').onclick=()=>$('urlDialog').close();
+$('manualUrl').onclick=()=>{const u=cleanUrl($('urlInput').value);if(!u){$('urlImportStatus').textContent='Renseigne une adresse HTTP(S) valide.';return}urlDraft={url:u,source:new URL(u).hostname};$('urlDialog').close();openEditor();applyUrlDraft()};
+function applyUrlDraft(){if(!urlDraft)return;for(const [key,val] of Object.entries(urlDraft)){const el=$('f-'+key);if(el&&val&&(!el.value||['url','source','found'].includes(key))){el.value=String(val).slice(0,2000)}}urlDraft=null}
+$('analyzeUrl').onclick=async()=>{
+ const u=cleanUrl($('urlInput').value);if(!u){$('urlImportStatus').textContent='Colle un lien HTTP(S) valide.';return}
+ const pasted=$('urlPaste').value.trim();let result=extractOfferFromText(pasted,u);let blocked=false;
+ if(!pasted){$('urlImportStatus').textContent='Lecture de la page en cours…';try{const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),7500);try{const res=await fetch(u,{signal:controller.signal,credentials:'omit'});if(!res.ok)throw Error('HTTP '+res.status);const html=await res.text();if(html.length>1500000)throw Error('Page trop volumineuse');result={...result,...extractFromHTML(html,u)}}finally{clearTimeout(timer)}}catch{blocked=true}}
+ if(blocked&&!result.company&&!result.role){$('urlImportStatus').textContent='Cette plateforme bloque la lecture automatique. Colle le texte de l’annonce dans le champ ci-dessus, puis réessaie, ou utilise « Continuer manuellement ».';return}
+ if(!result.company||!result.role){$('urlImportStatus').textContent='Informations incomplètes : colle le texte de l’annonce pour enrichir la fiche, ou continue manuellement.';return}
+ const duplicate=jobs.find(j=>syncIdentity(j)===syncIdentity(result)||normText(j.company)===normText(result.company)&&normText(j.role)===normText(result.role));
+ if(duplicate){$('urlDialog').close();if(confirm('Cette annonce semble déjà enregistrée. Ouvrir sa fiche ?'))openEditor(duplicate.id);return}
+ urlDraft=result;$('urlDialog').close();openEditor();applyUrlDraft();
+};
+/* Un service worker ne conserve que les fichiers publics de l'interface, jamais les données privées. */
+if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+
+render();
+</script></body></html>
