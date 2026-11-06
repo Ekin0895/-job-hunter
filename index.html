@@ -109,7 +109,8 @@ function renderLanes(){
  document.querySelectorAll('[data-drag]').forEach(e=>e.addEventListener('dragstart',ev=>ev.dataTransfer.setData('text/plain',e.dataset.drag)));
  document.querySelectorAll('[data-lane]').forEach(e=>{e.addEventListener('dragover',ev=>{ev.preventDefault();e.classList.add('dragover')});e.addEventListener('dragleave',()=>e.classList.remove('dragover'));e.addEventListener('drop',ev=>{ev.preventDefault();e.classList.remove('dragover');const j=jobs.find(x=>x.id===ev.dataTransfer.getData('text/plain'));if(j){j.status=e.dataset.lane;save()}})});
 }
-function renderDocs(){$('doc-list').innerHTML=jobs.map(j=>`<div class="card" style="margin-bottom:12px"><strong>${safe(j.company)} — ${safe(j.role)}</strong>${actionLinks(j)}</div>`).join('')||'<p class="empty">Aucune candidature.</p>'}
+function documentStatus(j){return 'CV : '+(j.cv?'Lien renseigné (à vérifier)':'À préparer')+' · Lettre : '+(j.letter?'Lien renseigné (à vérifier)':j.letterText?'Brouillon enregistré':'À préparer')+' · 1 page : validation manuelle'}
+function renderDocs(){$('doc-list').innerHTML=jobs.map(j=>`<div class="card" style="margin-bottom:12px"><strong>${safe(j.company)} — ${safe(j.role)}</strong><div class="meta" style="margin-top:8px">${safe(documentStatus(j))}</div>${actionLinks(j)}</div>`).join('')||'<p class="empty">Aucune candidature.</p>'}
 let activeLetter=null;
 function openLetter(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeLetter=id;$('letterJob').textContent=j.company+' — '+j.role;$('letterText').value=j.letterText||'';$('letterDialog').showModal()}
 $('closeLetter').onclick=()=>$('letterDialog').close();
@@ -123,7 +124,22 @@ function openEditor(id){
  $('fields').innerHTML=specs.map(([key,label,type,required])=>`<div style="${key==='notes'?'grid-column:1/-1':''}"><label for="f-${key}">${label}</label>${type==='textarea'?`<textarea class="field" id="f-${key}">${safe(j[key]||'')}</textarea>`:type==='category'?`<select class="field" id="f-${key}">${categories.map(c=>`<option ${j.category===c?'selected':''}>${safe(c)}</option>`).join('')}</select>`:type==='select'?`<select class="field" id="f-${key}">${(key==='status'?stages:['Haute','Moyenne','Basse']).map(s=>`<option ${j[key]===s?'selected':''}>${safe(s)}</option>`).join('')}</select>`:`<input class="field" id="f-${key}" type="${type}" ${required?'required':''} value="${safe(j[key]||'')}">`}</div>`).join('');
  $('deleteJob').classList.toggle('hidden',!editing);$('editor').showModal();
 }
-$('jobform').onsubmit=e=>{e.preventDefault();const v={...(jobs.find(x=>x.id===editing)||{}),id:editing||'job-'+Date.now()};specs.forEach(([k])=>v[k]=$('f-'+k).value.trim());if(editing){jobs=jobs.map(j=>j.id===editing?v:j)}else jobs.unshift(v);$('editor').close();save()};
+function canonicalOfferUrl(value){
+ try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol))return '';u.hash='';for(const k of [...u.searchParams.keys()])if(/^utm_|^(trk|trackingId|refId|fbclid|gclid)$/i.test(k))u.searchParams.delete(k);return u.origin+u.pathname.replace(/\\/$/,'')+(u.search||'')}catch{return ''}
+}
+function normalizedOfferText(value){return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+$('jobform').onsubmit=e=>{
+ e.preventDefault();
+ const v={...(jobs.find(x=>x.id===editing)||{}),id:editing||'job-'+Date.now()};
+ specs.forEach(([k])=>v[k]=$('f-'+k).value.trim());
+ if(!v.company||!v.role){alert('Renseigne au minimum l’entreprise et le poste.');return}
+ for(const k of ['url','cv','pdf','letter'])if(v[k]&&!/^https?:\\/\\/[^\\s]+$/i.test(v[k])){alert('Le champ '+k+' doit contenir une adresse http(s) valide.');return}
+ const url=canonicalOfferUrl(v.url);
+ const duplicate=jobs.find(j=>j.id!==v.id&&((url&&canonicalOfferUrl(j.url)===url)||(normalizedOfferText(j.company)===normalizedOfferText(v.company)&&normalizedOfferText(j.role)===normalizedOfferText(v.role))));
+ if(duplicate&&!confirm('Une offre similaire existe déjà : '+duplicate.company+' — '+duplicate.role+'. Enregistrer quand même ?'))return;
+ if(editing)jobs=jobs.map(j=>j.id===editing?v:j);else jobs.unshift(v);
+ $('editor').close();save()
+};
 $('deleteJob').onclick=()=>{if(editing&&confirm('Supprimer définitivement cette offre ?')){jobs=jobs.filter(j=>j.id!==editing);$('editor').close();save()}};
 $('new').onclick=()=>openEditor();$('close').onclick=()=>$('editor').close();
 document.addEventListener('click',e=>{const criteria=e.target.closest('[data-criteria]');if(criteria){document.querySelector('[data-view="settings"]').click();$('prefCategory').value=criteria.dataset.criteria;renderPrefs();return}const lt=e.target.closest('[data-letter]');if(lt){openLetter(lt.dataset.letter);return}const edit=e.target.closest('[data-edit]');if(edit)openEditor(edit.dataset.edit);const next=e.target.closest('[data-next]');if(next){const j=jobs.find(x=>x.id===next.dataset.next);if(j){j.status=lanes[Math.min(lanes.length-1,lanes.indexOf(j.status)+1)];save()}}});
