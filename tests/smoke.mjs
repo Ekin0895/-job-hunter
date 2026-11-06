@@ -80,8 +80,8 @@ const reviewIssues=vm.runInNewContext('('+code.match(/function cvReviewIssues\(t
 assert.ok(reviewIssues('Dates à confirmer').length>0);
 assert.equal(reviewIssues('A'.repeat(500)).length,0);
 const cvMarkup=vm.runInNewContext('('+code.match(/function cvMarkup\(text\)\{[\s\S]*?\n\}/)[0]+')',{safe:s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;')});
-assert.match(cvMarkup('EKIN IKIZER\\nConsultant SEO\\nPROFIL\\nTexte'),/cv-section/);
-assert.match(cvMarkup('EKIN IKIZER\\nConsultant SEO\\nPROFIL\\n<script>'),/&lt;script>/);
+assert.match(cvMarkup('EKIN IKIZER\nConsultant SEO\nPROFIL\nTexte'),/cv-section/);
+assert.match(cvMarkup('EKIN IKIZER\nConsultant SEO\nPROFIL\n<script>'),/&lt;script>/);
 assert.match(marketingCv,/CONSULTANT SEO/i);
 assert.match(suggestedLetter({category:'Marketing',company:'Example',role:'Growth Marketing',requirements:'Meta Ads'}),/huit campagnes Meta Ads/);
 assert.match(suggestedLetter({category:'Commercial',company:'Example',role:'Business Developer'}),/15 rendez-vous par semaine/);
