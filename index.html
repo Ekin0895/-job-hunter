@@ -196,6 +196,8 @@ $('jobform').onsubmit=e=>{
  if(!v.cv&&!v.pdf&&!v.cvText)v.cvChecked='Non';
  if(!v.letter&&!v.letterText)v.letterChecked='Non';
  if(!v.company||!v.role){alert('Renseigne au minimum l’entreprise et le poste.');return}
+ // Réutiliser l'ID d'une fiche seulement pour son édition : deux ajouts rapides ne doivent jamais partager le même ID.
+ if(!editing)v.id='job-'+(typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));
  for(const k of ['url','cv','pdf','letter'])if(v[k]&&!/^https?:\/\/[^\s]+$/i.test(v[k])){alert('Le champ '+k+' doit contenir une adresse http(s) valide.');return}
  const url=canonicalOfferUrl(v.url);
  const duplicate=jobs.find(j=>j.id!==v.id&&((url&&canonicalOfferUrl(j.url)===url)||(normalizedOfferText(j.company)===normalizedOfferText(v.company)&&normalizedOfferText(j.role)===normalizedOfferText(v.role))));
