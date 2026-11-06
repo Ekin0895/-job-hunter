@@ -35,3 +35,22 @@
 ## Limites et sécurité
 
 La pré-vérification des conflits peut encore subir une course entre la lecture et l'écriture : une vraie protection exige un contrôle de version transactionnel côté Supabase (RPC / CAS). Les URL de candidature doivent être vérifiées sur la source officielle ; un lien ancien peut désigner une autre annonce. Aucun envoi de candidature ne doit être automatisé sans validation explicite.
+
+## Mise à jour — développement V10
+
+- Protection supplémentaire contre le remplacement d'éditions locales lors d'une actualisation ou connexion cloud en cours.
+- Copies immuables des données utilisées pour les écritures distantes.
+- Gestion plus sûre des succès partiels : chaque suppression cloud réussie met à jour le snapshot immédiatement ; les suppressions ciblent aussi `user_id`.
+- Détection et avertissement sur l'ancien lien Klox incompatible avec le poste SEO/GEO.
+- Brouillons de lettres par catégorie, à relire et personnaliser ; indicateur de longueur (pas une garantie de pagination).
+- Validation manuelle CV/lettre sur une page ; invalidation de la validation après modification du document.
+- Copie native de deux modèles Google Docs (Marketing/Klox et Commercial/Happypal). **L'application ne modifie pas automatiquement le contenu de ces copies.**
+- Tests automatisés ajoutés dans `tests/smoke.mjs` et workflow `.github/workflows/v10-smoke.yml`.
+
+### Bloquants avant livraison complète
+
+1. La création automatique de CV fidèles aux modèles Google Docs exige un mécanisme d'autorisation Google côté utilisateur et une implémentation de l'édition de copies. Les liens `/copy` restent une solution manuelle.
+2. La protection cloud n'est pas transactionnelle côté Supabase : prévoir une fonction SQL/RPC avec contrôle de version avant toute promesse de synchronisation sans perte.
+3. Les tests automatisés actuels sont des tests de fumée, pas des tests navigateur ou d'intégration cloud. Vérifier leur exécution dans GitHub Actions.
+4. Les modèles CV administratifs ne sont pas encore connectés à un document Google Docs vérifié.
+5. Ne pas fusionner vers `main` sans validation de l'utilisateur.
