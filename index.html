@@ -249,7 +249,10 @@ const CLOUD_KEY='sb_publishable_Ms3TZ1yuIqpBGUrT6vV81Q_rioEdRWZ';
 const CLOUD_SESSION_KEY='jh-cloud-session-v1';
 let cloudSession=null,cloudUser=null,cloudBusy=false,cloudPending=false,cloudTimer=null,cloudSnapshot=new Map(),cloudVersions=new Map(),cloudError=false;
 const cloudState=$('cloudState');
-function cloudMessage(msg){cloudState.textContent=msg;$('cloudSidebar').textContent=cloudUser?'☁ Connecté · synchronisation active':'Mode local · Synchronisation désactivée'}
+function cloudMessage(msg){
+ cloudState.textContent=msg;
+ $('cloudSidebar').textContent=!cloudUser?'Mode local · Synchronisation désactivée':cloudError?'⚠ Cloud : erreur de synchronisation':cloudPending?'◷ Cloud : sauvegarde en attente':'☁ Cloud : connecté';
+}
 function cloudUI(){const logged=!!cloudUser;$('cloudLogin').classList.toggle('hidden',logged);$('cloudConnected').classList.toggle('hidden',!logged);cloudMessage(logged?'Connecté : '+cloudUser.email+' · Synchronisation active.':'Non connecté. Les candidatures restent sur cet appareil.')}
 async function cloudRequest(path,options={},authenticated=true){
  const headers={'apikey':CLOUD_KEY,'Content-Type':'application/json',...(options.headers||{})};
@@ -357,7 +360,7 @@ async function cloudPush(){
   cloudError=true;
   const backupKey='jh-save-backup-'+Date.now();
   try{localStorage.setItem(backupKey,JSON.stringify({jobs,createdAt:new Date().toISOString()}))}catch{}
-  cloudMessage('Sauvegarde cloud interrompue : '+err.message+' · données locales conservées. Exporte tes offres avant toute actualisation.');
+  cloudMessage('Sauvegarde cloud interrompue : '+err.message+' · données locales conservées. Utilise « Actualiser le cloud » pour réessayer après avoir résolu le problème.');
  }finally{cloudBusy=false}
 }
 async function cloudStart(){
