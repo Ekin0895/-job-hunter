@@ -108,7 +108,7 @@ const storage={
  get length(){return storageMap.size}
 };
 const cloudSandbox=vm.createContext({localStorage:storage,KEY:'jobs',structuredClone,cloudMessage:()=>{blocked=true},render:()=>{renderCount++}});
-vm.runInContext('let jobs=[{id:"a",company:"A"}],cloudUser={id:"user"},cloudSnapshot=new Map(),cloudVersions=new Map();'+cloudFunctions.join('\\n'),cloudSandbox);
+vm.runInContext('let jobs=[{id:"a",company:"A"}],cloudUser={id:"user"},cloudSnapshot=new Map(),cloudVersions=new Map();'+cloudFunctions.join('\n'),cloudSandbox);
 const cloudRows=(company,version)=>[{local_id:'a',data:{id:'a',company},updated_at:version}];
 assert.equal(vm.runInContext('cloudReplace('+JSON.stringify(cloudRows('A','1'))+')',cloudSandbox),true);
 assert.equal(storageMap.size,1,'Unchanged cloud refresh must not create a backup');
