@@ -125,7 +125,7 @@ function openEditor(id){
  $('deleteJob').classList.toggle('hidden',!editing);$('editor').showModal();
 }
 function canonicalOfferUrl(value){
- try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol))return '';u.hash='';for(const k of [...u.searchParams.keys()])if(/^(utm_|trk$|trackingId$|refId$|fbclid$|gclid$)/i.test(k))u.searchParams.delete(k);return u.origin+u.pathname.replace(/\/$/,'')+(u.search||'')}catch{return ''}
+ try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol))return '';u.hash='';for(const k of [...u.searchParams.keys()])if(/^(utm_.*|trk|trackingId|refId|fbclid|gclid)$/i.test(k))u.searchParams.delete(k);return u.origin+u.pathname.replace(/\/$/,'')+(u.search||'')}catch{return ''}
 }
 function normalizedOfferText(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
 $('jobform').onsubmit=e=>{
