@@ -352,21 +352,30 @@ function sameJobSet(a,b){
  return b.every(j=>map.has(j.id)&&map.get(j.id)===JSON.stringify(j));
 }
 function cloudReplace(rows){
- // Toujours conserver une sauvegarde avant un remplacement distant.
- // Une sauvegarde différente n'est pas une autorisation d'écraser des modifications locales.
  const incoming=rows.map(r=>({...r.data,id:r.local_id}));
- const backupKey='jh-before-refresh-'+Date.now();
- try{localStorage.setItem(backupKey,JSON.stringify({jobs,createdAt:new Date().toISOString()}))}catch{}
+ const changed=!sameJobSet(jobs,incoming);
+ if(changed){
+  // Sauvegarder uniquement lors d'un vrai remplacement, en limitant l'historique.
+  const prefix='jh-before-refresh-';
+  try{
+   localStorage.setItem(prefix+Date.now(),JSON.stringify({jobs,createdAt:new Date().toISOString()}));
+   const keys=Object.keys(localStorage).filter(k=>k.startsWith(prefix)).sort().reverse();
+   keys.slice(8).forEach(k=>localStorage.removeItem(k));
+  }catch(err){cloudMessage('⚠ Sauvegarde locale impossible : actualisation bloquée. Libère de l’espace ou exporte les offres.');return false}
+  try{localStorage.setItem(KEY,JSON.stringify(incoming))}
+  catch(err){cloudMessage('⚠ Stockage local saturé : actualisation bloquée.');return false}
+ }
+ try{if(cloudUser)localStorage.setItem('jh-cloud-last-'+cloudUser.id,JSON.stringify(incoming))}
+ catch(err){cloudMessage('⚠ Historique cloud impossible à enregistrer : actualisation bloquée.');return false}
  cloudSnapshot=cloudRowsToMap(rows);
  cloudVersions=cloudRowsToVersions(rows);
- if(cloudUser)localStorage.setItem('jh-cloud-last-'+cloudUser.id,JSON.stringify(incoming));
- jobs=incoming;
- localStorage.setItem(KEY,JSON.stringify(jobs));render();
+ if(changed){jobs=incoming;render()}
+ return true;
 }
 async function cloudPull(){
  if(!cloudUser||cloudBusy||cloudPending||$('editor').open||$('letterDialog').open||$('cvDialog').open)return;
  cloudBusy=true;
- try{const rows=await cloudFetch();if(cloudPending||$('editor').open||$('letterDialog').open||$('cvDialog').open){cloudMessage('Actualisation différée : modifications locales ou formulaire ouvert.');return}const baseline=localStorage.getItem('jh-cloud-last-'+cloudUser.id);let known=null;if(baseline){try{known=JSON.parse(baseline)}catch{cloudMessage('⚠ Historique local illisible. Actualisation bloquée : exporte tes offres avant de continuer.');return}}if(known&&!sameJobSet(known,jobs)){cloudPending=true;cloudMessage('⚠ Données locales différentes du dernier état cloud connu. Actualisation bloquée ; exporte ton JSON.');return}cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
+ try{const rows=await cloudFetch();if(cloudPending||$('editor').open||$('letterDialog').open||$('cvDialog').open){cloudMessage('Actualisation différée : modifications locales ou formulaire ouvert.');return}const baseline=localStorage.getItem('jh-cloud-last-'+cloudUser.id);let known=null;if(baseline){try{known=JSON.parse(baseline)}catch{cloudMessage('⚠ Historique local illisible. Actualisation bloquée : exporte tes offres avant de continuer.');return}}if(known&&!sameJobSet(known,jobs)){cloudPending=true;cloudMessage('⚠ Données locales différentes du dernier état cloud connu. Actualisation bloquée ; exporte ton JSON.');return}if(!cloudReplace(rows))return;cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
  catch(err){cloudError=true;cloudMessage('Synchronisation interrompue : '+err.message+' · modifications locales conservées.')}
  finally{cloudBusy=false}
 }
@@ -487,7 +496,7 @@ async function cloudStart(){
     }
    }
   }
-  cloudReplace(rows);cloudMessage('☁ Connecté · '+rows.length+' offre(s) dans le cloud. Pour transférer tes anciennes offres, utilise « Importer mes offres locales ».');
+  if(!cloudReplace(rows))return;cloudMessage('☁ Connecté · '+rows.length+' offre(s) dans le cloud. Pour transférer tes anciennes offres, utilise « Importer mes offres locales ».');
  }catch(err){cloudMessage('Erreur cloud : '+err.message)}
 }
 $('cloudSignIn').onclick=()=>cloudAuth('signin');
