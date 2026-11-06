@@ -222,7 +222,7 @@ function cloudReplace(rows){
  localStorage.setItem(KEY,JSON.stringify(jobs));render();
 }
 async function cloudPull(){
- if(!cloudUser||cloudBusy||cloudPending)return;
+ if(!cloudUser||cloudBusy||cloudPending||$('editor').open||$('letterDialog').open)return;
  cloudBusy=true;
  try{const rows=await cloudFetch();cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
  catch(err){cloudError=true;cloudMessage('Synchronisation interrompue : '+err.message+' · modifications locales conservées.')}
@@ -235,7 +235,8 @@ function queueCloudSave(){
  cloudMessage('Modifications en attente de sauvegarde…');
 }
 async function cloudPush(){
- if(!cloudUser||cloudBusy){cloudTimer=setTimeout(cloudPush,1200);return}
+ if(!cloudUser||!cloudPending)return;
+ if(cloudBusy){cloudTimer=setTimeout(cloudPush,1200);return}
  cloudBusy=true;
  try{
   await cloudReady();
@@ -266,7 +267,11 @@ async function cloudPush(){
   for(const id of removed)await cloudRequest('/rest/v1/job_offers?local_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
   for(const [id,j] of changes)cloudSnapshot.set(id,structuredClone(j));
   for(const id of removed)cloudSnapshot.delete(id);
-  cloudPending=false;cloudError=false;
+  // Si une édition est survenue pendant la requête, conserver son statut en attente.
+  const latest=new Map(jobs.map(j=>[j.id,j]));
+  cloudPending=[...latest].some(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)))||[...cloudSnapshot.keys()].some(id=>!latest.has(id));
+  if(cloudPending)cloudTimer=setTimeout(cloudPush,650);
+  cloudError=false;
   cloudMessage('☁ Sauvegardé · '+new Date().toLocaleTimeString('fr-FR'));
  }catch(err){cloudError=true;cloudMessage('Échec de sauvegarde cloud : '+err.message+' · données locales préservées. Clique sur « Actualiser » après résolution.');}
  finally{cloudBusy=false}
