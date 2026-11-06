@@ -162,7 +162,12 @@ function suggestedLetter(j){
   :'Chez Innovorder, j’ai contribué à 72 briefs SEO et à 108 optimisations, ainsi qu’à des projets de pages web et à des campagnes Meta Ads. J’ai aussi travaillé sur des workflows HubSpot et des campagnes emailing et SMS. En freelance, j’ai accompagné des projets en SEO et en communication digitale.';
  const requirements=String(j.requirements||'').split(/[\n,;•]+/).map(x=>x.trim()).filter(x=>x.length>2).slice(0,4);
  const description=String(j.description||'').trim();
- const context=description||requirements.length?'Votre annonce met en avant '+(requirements.length?'des besoins autour de '+requirements.join(', '):'des missions que je souhaite mieux comprendre')+'. Je pourrai préciser en entretien les exemples de mon parcours qui répondent le mieux à ces attentes.':'Je souhaite mettre ces compétences au service de votre équipe, tout en continuant à progresser sur les enjeux propres à ce poste.';
+ const matched=cvTailoring(j).slice(0,3);
+ const context=matched.length
+  ?'Votre offre fait écho à plusieurs compétences que j’ai pratiquées : '+matched.join(', ')+'. Je serais ravi de vous présenter des réalisations concrètes en lien avec les missions du poste.'
+  :requirements.length
+   ?'Les missions mentionnées dans votre annonce, notamment '+requirements.slice(0,2).join(' et ')+', retiennent mon attention. Je souhaite échanger avec vous sur la manière dont mon parcours peut répondre à ces besoins.'
+   :'Je souhaite mettre ces compétences au service de votre équipe, tout en continuant à progresser sur les enjeux propres à ce poste.';
  return opening+'\n\n'+experience+'\n\n'+context+'\n\nJe serais heureux d’échanger avec vous sur mes expériences et sur les besoins de '+company+'.\n\nJe vous remercie de votre attention et vous prie d’agréer, Madame, Monsieur, mes salutations distinguées.\n\nEkin Ikizer';
 }
 function cvTailoring(j){
