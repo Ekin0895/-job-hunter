@@ -226,11 +226,10 @@ function suggestedCv(j){
   :['FREELANCE — Consultant marketing digital | Jan. 2026 – aujourd’hui','WAYTA : audit SEO et recommandations pour une refonte. De fils en fil : suivi et optimisation de campagnes Meta Ads. Accor : communications internes en français et en anglais.','INNOVORDER — Marketing digital et acquisition | Janv. 2024 – sept. 2025','72 briefs SEO, 108 optimisations de contenus, audits et suivi de performance. Refonte de pages produits et coordination web, design et contenu. Campagnes Meta Ads et workflows HubSpot.','HUBUP — Support commercial et marketing | Sept. 2022 – sept. 2024','Tutoriels clients, accompagnement B2B et contribution à des contenus marketing.','WIZARDS TECHNOLOGIES — Business Developer | Sept. 2020 – sept. 2022','Prospection B2B, identification des besoins et prise de rendez-vous.'];
  const skills=j.category==='Commercial'?'Prospection B2B · Qualification · Prise de rendez-vous · HubSpot · Sales Navigator · Lusha · Ringover · Relation client':j.category==='Admin / polyvalent'?'Relation client · Suivi de demandes · Organisation · Gestion de matériel · Caisse · Mise en rayon · Réception de marchandises · Google Workspace':'SEO · Audits · Recherche de mots-clés · Optimisation on-site · Google Analytics 4 · Search Console · SEMrush · HubSpot · Meta Ads · Notion';
  const education='FORMATION\nICD Business School — MBA Marketing et Commercial | Sept. 2023 – sept. 2025\nCFA CODIS — Licence marketing numérique et e-commerce | Sept. 2020 – sept. 2023';
- const req=String(j.requirements||'').trim();
  const tailored=cvTailoring(j);
  const target=String(j.role||'').trim();
  const focusedSkills=[...new Set([...tailored,...skills.split(' · ')])].join(' · ');
- return `EKIN IKIZER\n${target?target.toUpperCase()+' — ':''}${headline}\n\nPROFIL\n${profile}\n\nEXPÉRIENCES\n${experiences.join('\n')}\n\nCOMPÉTENCES\n${focusedSkills}\n\n${education}${req?'\n\nÀ VÉRIFIER AVANT ENVOI\nComparer les exigences de l’annonce avec tes expériences et ajouter uniquement les exemples vérifiés.':''}`;
+ return `EKIN IKIZER\n${target?target.toUpperCase()+' — ':''}${headline}\n\nPROFIL\n${profile}\n\nEXPÉRIENCES\n${experiences.join('\n')}\n\nCOMPÉTENCES\n${focusedSkills}\n\n${education}`;
 }
 function openCv(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeCv=id;$('cvJob').textContent=j.company+' — '+j.role;$('cvText').value=j.cvText||suggestedCv(j);updateCvLength();$('cvDialog').showModal()}
 function printCvDocument(j,text){
