@@ -90,5 +90,31 @@ assert.match(html,/id="v10-mobile-polish"/);
 assert.match(html,/id="cvPreview"/);
 assert.match(html,/id="cvChecks"/);
 assert.match(code,/function cvReviewIssues/);
+// Execute cloud replacement with an isolated localStorage mock.
+const cloudFunctions=['cloudRowsToMap','cloudRowsToVersions','sameJobSet','cloudReplace']
+ .map(name=>code.match(new RegExp('function '+name+'\\\\([^)]*\\\\)\\\\{[\\\\s\\\\S]*?\\\\n\\\\}'))?.[0]);
+assert.ok(cloudFunctions.every(Boolean),'Cloud replacement helpers must be extractable');
+const storageMap=new Map();
+let blocked=false,renderCount=0,quotaFull=false;
+const storage={
+ getItem:key=>storageMap.get(key)??null,
+ setItem:(key,value)=>{if(quotaFull)throw new Error('QuotaExceededError');storageMap.set(key,value)},
+ removeItem:key=>storageMap.delete(key),
+ key:index=>[...storageMap.keys()][index],
+ get length(){return storageMap.size}
+};
+const cloudSandbox=vm.createContext({localStorage:storage,KEY:'jobs',structuredClone,cloudMessage:()=>{blocked=true},render:()=>{renderCount++}});
+vm.runInContext('let jobs=[{id:"a",company:"A"}],cloudUser={id:"user"},cloudSnapshot=new Map(),cloudVersions=new Map();'+cloudFunctions.join('\\n'),cloudSandbox);
+const cloudRows=(company,version)=>[{local_id:'a',data:{id:'a',company},updated_at:version}];
+assert.equal(vm.runInContext('cloudReplace('+JSON.stringify(cloudRows('A','1'))+')',cloudSandbox),true);
+assert.equal(storageMap.size,1,'Unchanged cloud refresh must not create a backup');
+assert.equal(vm.runInContext('cloudReplace('+JSON.stringify(cloudRows('B','2'))+')',cloudSandbox),true);
+assert.equal(renderCount,1);
+assert.equal([...storageMap.keys()].filter(k=>k.startsWith('jh-before-refresh-')).length,1);
+quotaFull=true;
+assert.equal(vm.runInContext('cloudReplace('+JSON.stringify(cloudRows('C','3'))+')',cloudSandbox),false);
+assert.equal(vm.runInContext('jobs[0].company',cloudSandbox),'B','Failed cloud write must not overwrite in-memory jobs');
+assert.equal(blocked,true);
+
 console.log('PASS: syntax, cloud safeguards/migration, URL/title normalization, factual CV/letter drafts and PWA asset paths.');
 console.log('NOT TESTED: browser rendering, live Supabase concurrency/authentication, Google Docs rendering and PDF pagination.');
