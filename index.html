@@ -187,12 +187,21 @@ function suggestedLetter(j){
  const requirements=String(j.requirements||'').split(/[\n,;•]+/).map(x=>x.trim()).filter(x=>x.length>2).slice(0,4);
  const description=String(j.description||'').trim();
  const matched=cvTailoring(j).slice(0,3);
+ const evidence=j.category==='Commercial'
+  ?'Chez Innovorder, j’ai atteint un objectif de 15 rendez-vous par semaine et utilisé HubSpot pour suivre les leads entrants.'
+  :j.category==='Admin / polyvalent'
+  ?'Chez Hubup, j’ai traité des demandes clients et préparé du matériel destiné aux utilisateurs.'
+  :/seo|référencement|contenu|content|geo/i.test(String(j.role||'')+' '+String(j.requirements||''))
+   ?'Chez Innovorder, j’ai réalisé 72 briefs SEO et 108 optimisations de contenus.'
+   :/ads|acquisition|growth|paid|publicité/i.test(String(j.role||'')+' '+String(j.requirements||''))
+    ?'Chez Innovorder, j’ai participé à huit campagnes Meta Ads et à la mise en place de workflows HubSpot.'
+    :'Chez Innovorder, j’ai travaillé sur des projets web, des campagnes d’acquisition et des automatisations HubSpot.';
  const context=matched.length
   ?'Votre offre fait écho à plusieurs compétences que j’ai pratiquées : '+matched.join(', ')+'. Je serais ravi de vous présenter des réalisations concrètes en lien avec les missions du poste.'
   :requirements.length
    ?'Les missions mentionnées dans votre annonce, notamment '+requirements.slice(0,2).join(' et ')+', retiennent mon attention. Je souhaite échanger avec vous sur la manière dont mon parcours peut répondre à ces besoins.'
    :'Je souhaite mettre ces compétences au service de votre équipe, tout en continuant à progresser sur les enjeux propres à ce poste.';
- return opening+'\n\n'+experience+'\n\n'+context+'\n\nJe serais heureux d’échanger avec vous sur mes expériences et sur les besoins de '+company+'.\n\nJe vous remercie de votre attention et vous prie d’agréer, Madame, Monsieur, mes salutations distinguées.\n\nEkin Ikizer';
+ return opening+'\n\n'+experience+'\n\n'+evidence+'\n\n'+context+'\n\nJe serais heureux d’échanger avec vous sur mes expériences et sur les besoins de '+company+'.\n\nJe vous remercie de votre attention et vous prie d’agréer, Madame, Monsieur, mes salutations distinguées.\n\nEkin Ikizer';
 }
 function cvTailoring(j){
  const text=(String(j.role||'')+' '+String(j.requirements||'')+' '+String(j.description||'')).toLowerCase();
