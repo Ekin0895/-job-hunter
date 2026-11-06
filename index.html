@@ -214,7 +214,7 @@ $('reset').onclick=()=>{if(cloudUser){alert('Pour éviter une suppression accide
 const CLOUD_URL='https://prfspiiroskzxeqrtbkz.supabase.co';
 const CLOUD_KEY='sb_publishable_Ms3TZ1yuIqpBGUrT6vV81Q_rioEdRWZ';
 const CLOUD_SESSION_KEY='jh-cloud-session-v1';
-let cloudSession=null,cloudUser=null,cloudBusy=false,cloudPending=false,cloudTimer=null,cloudSnapshot=new Map(),cloudError=false;
+let cloudSession=null,cloudUser=null,cloudBusy=false,cloudPending=false,cloudTimer=null,cloudSnapshot=new Map(),cloudVersions=new Map(),cloudError=false;
 const cloudState=$('cloudState');
 function cloudMessage(msg){cloudState.textContent=msg;$('cloudSidebar').textContent=cloudUser?'☁ Connecté · synchronisation active':'Mode local · Synchronisation désactivée'}
 function cloudUI(){const logged=!!cloudUser;$('cloudLogin').classList.toggle('hidden',logged);$('cloudConnected').classList.toggle('hidden',!logged);cloudMessage(logged?'Connecté : '+cloudUser.email+' · Synchronisation active.':'Non connecté. Les candidatures restent sur cet appareil.')}
@@ -248,8 +248,10 @@ async function cloudFetch(){
  await cloudReady();return await cloudRequest('/rest/v1/job_offers?select=local_id,data,updated_at&order=updated_at.desc&limit=10000');
 }
 function cloudRowsToMap(rows){return new Map(rows.map(r=>[r.local_id,structuredClone(r.data)]))}
+function cloudRowsToVersions(rows){return new Map(rows.map(r=>[r.local_id,r.updated_at]))}
 function cloudReplace(rows){
  cloudSnapshot=cloudRowsToMap(rows);
+ cloudVersions=cloudRowsToVersions(rows);
  jobs=rows.map(r=>({...r.data,id:r.local_id}));
  localStorage.setItem(KEY,JSON.stringify(jobs));render();
 }
@@ -275,42 +277,34 @@ async function cloudPush(){
   const current=new Map(jobs.map(j=>[j.id,structuredClone(j)]));
   const changes=[...current].filter(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)));
   const removed=[...cloudSnapshot.keys()].filter(id=>!current.has(id));
-  // Pré-vérification des conflits : ne jamais écraser silencieusement une modification distante.
-  // Ce contrôle réduit les collisions mais n'est pas une transaction atomique côté serveur.
-  if(changes.length||removed.length){
-   const remoteRows=await cloudFetch();
-   const remote=new Map(remoteRows.map(r=>[r.local_id,r.data]));
-   const conflicts=[...changes.map(([id])=>id),...removed].filter(id=>{
-    const before=cloudSnapshot.has(id)?JSON.stringify(cloudSnapshot.get(id)):null;
-    const now=remote.has(id)?JSON.stringify(remote.get(id)):null;
-    return before!==now;
+  // Les écritures utilisent la fonction atomique job_hunter_save côté serveur.
+  // Les suppressions restent bloquées tant que la fonction de suppression sécurisée n'est pas installée.
+  if(removed.length){
+   const backupKey='jh-delete-backup-'+Date.now();
+   localStorage.setItem(backupKey,JSON.stringify({jobs,removed,createdAt:new Date().toISOString()}));
+   throw Error('Suppression cloud suspendue pour sécurité ('+removed.length+' offre(s)). Aucune suppression envoyée. Copie locale : '+backupKey+'.');
+  }
+  for(const [id,data] of changes){
+   const response=await cloudRequest('/rest/v1/rpc/job_hunter_save',{
+    method:'POST',
+    body:JSON.stringify({p_local_id:id,p_data:data,p_expected_updated_at:cloudVersions.get(id)||null})
    });
-   if(conflicts.length){
-    const backupKey='jh-conflict-backup-'+Date.now();
-    localStorage.setItem(backupKey,JSON.stringify({jobs,conflicts,createdAt:new Date().toISOString()}));
-    throw Error('Conflit détecté sur '+conflicts.length+' offre(s) : '+conflicts.join(', ')+'. Aucune modification envoyée. Sauvegarde locale : '+backupKey+'. Exporte tes offres avant toute actualisation.');
-   }
+   const result=Array.isArray(response)?response[0]:response;
+   if(!result?.saved_updated_at)throw Error('Réponse de sauvegarde invalide pour '+id);
+   cloudSnapshot.set(id,structuredClone(data));
+   cloudVersions.set(id,result.saved_updated_at);
   }
-  if(removed.length&&!confirm('Confirmer la suppression définitive de '+removed.length+' offre(s) dans le cloud ?'))throw Error('Suppression annulée. Aucune modification envoyée.');
-  if(changes.length){
-   const payload=changes.map(([id,data])=>({user_id:cloudUser.id,local_id:id,data}));
-   await cloudRequest('/rest/v1/job_offers?on_conflict=user_id,local_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(payload)});
-   // Une écriture réussie doit être reflétée immédiatement dans le snapshot :
-   // si une suppression ultérieure échoue, une nouvelle tentative n'écrasera pas ces lignes.
-   for(const [id,j] of changes)cloudSnapshot.set(id,structuredClone(j));
-  }
-  for(const id of removed){
-   await cloudRequest('/rest/v1/job_offers?user_id=eq.'+encodeURIComponent(cloudUser.id)+'&local_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
-   cloudSnapshot.delete(id);
-  }
-  // Si une édition est survenue pendant la requête, conserver son statut en attente.
   const latest=new Map(jobs.map(j=>[j.id,j]));
   cloudPending=[...latest].some(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)))||[...cloudSnapshot.keys()].some(id=>!latest.has(id));
   if(cloudPending)cloudTimer=setTimeout(cloudPush,650);
   cloudError=false;
-  cloudMessage('☁ Sauvegardé · '+new Date().toLocaleTimeString('fr-FR'));
- }catch(err){cloudError=true;cloudMessage('Échec de sauvegarde cloud : '+err.message+' · données locales préservées. Clique sur « Actualiser » après résolution.');}
- finally{cloudBusy=false}
+  cloudMessage(cloudPending?'☁ Modifications supplémentaires en attente…':'☁ Sauvegardé · '+new Date().toLocaleTimeString('fr-FR'));
+ }catch(err){
+  cloudError=true;
+  const backupKey='jh-save-backup-'+Date.now();
+  try{localStorage.setItem(backupKey,JSON.stringify({jobs,createdAt:new Date().toISOString()}))}catch{}
+  cloudMessage('Sauvegarde cloud interrompue : '+err.message+' · données locales conservées. Exporte tes offres avant toute actualisation.');
+ }finally{cloudBusy=false}
 }
 async function cloudStart(){
  try{
