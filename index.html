@@ -277,13 +277,9 @@ async function cloudPush(){
   const current=new Map(jobs.map(j=>[j.id,structuredClone(j)]));
   const changes=[...current].filter(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)));
   const removed=[...cloudSnapshot.keys()].filter(id=>!current.has(id));
-  // Les écritures utilisent la fonction atomique job_hunter_save côté serveur.
-  // Les suppressions restent bloquées tant que la fonction de suppression sécurisée n'est pas installée.
-  if(removed.length){
-   const backupKey='jh-delete-backup-'+Date.now();
-   localStorage.setItem(backupKey,JSON.stringify({jobs,removed,createdAt:new Date().toISOString()}));
-   throw Error('Suppression cloud suspendue pour sécurité ('+removed.length+' offre(s)). Aucune suppression envoyée. Copie locale : '+backupKey+'.');
-  }
+  // Les écritures et suppressions utilisent les fonctions atomiques à contrôle de version.
+  // Une confirmation est demandée avant toute suppression distante.
+  if(removed.length&&!confirm('Supprimer définitivement '+removed.length+' candidature(s) du cloud ?'))throw Error('Suppression cloud annulée. Aucune candidature supprimée.');
   for(const [id,data] of changes){
    const response=await cloudRequest('/rest/v1/rpc/job_hunter_save',{
     method:'POST',
@@ -293,6 +289,17 @@ async function cloudPush(){
    if(!result?.saved_updated_at)throw Error('Réponse de sauvegarde invalide pour '+id);
    cloudSnapshot.set(id,structuredClone(data));
    cloudVersions.set(id,result.saved_updated_at);
+  }
+  for(const id of removed){
+   const expected=cloudVersions.get(id);
+   if(!expected)throw Error('Version cloud absente pour '+id+' : suppression refusée.');
+   const result=await cloudRequest('/rest/v1/rpc/job_hunter_delete',{
+    method:'POST',
+    body:JSON.stringify({p_local_id:id,p_expected_updated_at:expected})
+   });
+   if(result!==true)throw Error('Suppression non confirmée pour '+id);
+   cloudSnapshot.delete(id);
+   cloudVersions.delete(id);
   }
   const latest=new Map(jobs.map(j=>[j.id,j]));
   cloudPending=[...latest].some(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)))||[...cloudSnapshot.keys()].some(id=>!latest.has(id));
