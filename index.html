@@ -400,7 +400,20 @@ async function cloudStart(){
       cloudMessage('⚠ Conflit distant sur '+conflicts.length+' offre(s). Modifications locales préservées ; exporte ton JSON avant toute actualisation.');
       return;
      }
-     cloudVersions=new Map([...versions].filter(([id])=>before.has(id)));
+     // Repartir de l'état distant actuel, puis réappliquer uniquement les
+     // modifications locales sans conflit. Cela préserve aussi les ajouts,
+     // modifications et suppressions effectués depuis un autre appareil.
+     const merged=new Map([...remote].map(([id,data])=>[id,{...structuredClone(data),id}]));
+     for(const id of changedIds){
+      if(local.has(id))merged.set(id,structuredClone(jobs.find(j=>j.id===id)));
+      else merged.delete(id);
+     }
+     cloudSnapshot=remote;
+     cloudVersions=versions;
+     jobs=[...merged.values()];
+     localStorage.setItem(KEY,JSON.stringify(jobs));
+     localStorage.setItem('jh-cloud-last-'+cloudUser.id,JSON.stringify([...remote.values()]));
+     render();
      cloudPending=true;
      cloudMessage('☁ Modifications locales retrouvées après interruption. Sauvegarde sécurisée en attente…');
      queueCloudSave();
