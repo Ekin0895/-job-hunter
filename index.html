@@ -226,6 +226,23 @@ async function cloudPush(){
   const current=new Map(jobs.map(j=>[j.id,j]));
   const changes=[...current].filter(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)));
   const removed=[...cloudSnapshot.keys()].filter(id=>!current.has(id));
+  // Pré-vérification des conflits : ne jamais écraser silencieusement une modification distante.
+  // Ce contrôle réduit les collisions mais n'est pas une transaction atomique côté serveur.
+  if(changes.length||removed.length){
+   const remoteRows=await cloudFetch();
+   const remote=new Map(remoteRows.map(r=>[r.local_id,r.data]));
+   const conflicts=[...changes.map(([id])=>id),...removed].filter(id=>{
+    const before=cloudSnapshot.has(id)?JSON.stringify(cloudSnapshot.get(id)):null;
+    const now=remote.has(id)?JSON.stringify(remote.get(id)):null;
+    return before!==now;
+   });
+   if(conflicts.length){
+    const backupKey='jh-conflict-backup-'+Date.now();
+    localStorage.setItem(backupKey,JSON.stringify({jobs,conflicts,createdAt:new Date().toISOString()}));
+    throw Error('Conflit détecté sur '+conflicts.length+' offre(s) : '+conflicts.join(', ')+'. Aucune modification envoyée. Sauvegarde locale : '+backupKey+'. Exporte tes offres avant toute actualisation.');
+   }
+  }
+  if(removed.length&&!confirm('Confirmer la suppression définitive de '+removed.length+' offre(s) dans le cloud ?'))throw Error('Suppression annulée. Aucune modification envoyée.');
   if(changes.length){
    const payload=changes.map(([id,data])=>({user_id:cloudUser.id,local_id:id,data}));
    await cloudRequest('/rest/v1/job_offers?on_conflict=user_id,local_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(payload)});
