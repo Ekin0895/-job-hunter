@@ -215,7 +215,7 @@ async function cloudAuth(action){
 async function cloudFetch(){
  await cloudReady();return await cloudRequest('/rest/v1/job_offers?select=local_id,data,updated_at&order=updated_at.desc&limit=10000');
 }
-function cloudRowsToMap(rows){return new Map(rows.map(r=>[r.local_id,r.data]))}
+function cloudRowsToMap(rows){return new Map(rows.map(r=>[r.local_id,structuredClone(r.data)]))}
 function cloudReplace(rows){
  cloudSnapshot=cloudRowsToMap(rows);
  jobs=rows.map(r=>({...r.data,id:r.local_id}));
@@ -224,7 +224,7 @@ function cloudReplace(rows){
 async function cloudPull(){
  if(!cloudUser||cloudBusy||cloudPending||$('editor').open||$('letterDialog').open)return;
  cloudBusy=true;
- try{const rows=await cloudFetch();cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
+ try{const rows=await cloudFetch();if(cloudPending||$('editor').open||$('letterDialog').open){cloudMessage('Actualisation différée : modifications locales ou formulaire ouvert.');return}cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
  catch(err){cloudError=true;cloudMessage('Synchronisation interrompue : '+err.message+' · modifications locales conservées.')}
  finally{cloudBusy=false}
 }
@@ -240,7 +240,7 @@ async function cloudPush(){
  cloudBusy=true;
  try{
   await cloudReady();
-  const current=new Map(jobs.map(j=>[j.id,j]));
+  const current=new Map(jobs.map(j=>[j.id,structuredClone(j)]));
   const changes=[...current].filter(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)));
   const removed=[...cloudSnapshot.keys()].filter(id=>!current.has(id));
   // Pré-vérification des conflits : ne jamais écraser silencieusement une modification distante.
