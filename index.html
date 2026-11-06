@@ -310,6 +310,7 @@ async function cloudStart(){
   // Conserver une copie séparée avant le premier remplacement.
   const backupKey='jh-before-cloud-'+cloudUser.id;
   if(!localStorage.getItem(backupKey))localStorage.setItem(backupKey,JSON.stringify(jobs));
+  if(cloudPending||$('editor').open||$('letterDialog').open){cloudMessage('Connexion établie. Actualisation reportée pour protéger les modifications en cours.');return}
   cloudReplace(rows);cloudMessage('☁ Connecté · '+rows.length+' offre(s) dans le cloud. Pour transférer tes anciennes offres, utilise « Importer mes offres locales ».');
  }catch(err){cloudMessage('Erreur cloud : '+err.message)}
 }
