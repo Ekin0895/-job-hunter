@@ -379,6 +379,11 @@ async function cloudStart(){
   if(previous){
    let baseline;
    try{baseline=JSON.parse(previous)}catch{}
+   if(!Array.isArray(baseline)){
+    cloudError=true;
+    cloudMessage('⚠ Historique de synchronisation illisible. Données locales conservées : exporte une sauvegarde JSON avant toute actualisation.');
+    return;
+   }
    if(Array.isArray(baseline)){
     const local=new Map(jobs.map(j=>[j.id,JSON.stringify(j)]));
     const before=new Map(baseline.map(j=>[j.id,JSON.stringify(j)]));
