@@ -241,7 +241,14 @@ function printCvDocument(j,text){
  w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+safe(title)+'</title><style>'+styles+'</style></head><body><main class="cv-paper">'+cvMarkup(text)+'</main></body></html>');
  w.document.close();w.focus();setTimeout(()=>w.print(),350);
 }
-function printDocument(title,text){const w=window.open('','_blank');if(!w){alert('Autorise les fenêtres pop-up pour imprimer le document.');return}w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+safe(title)+'</title><style>@page{size:A4;margin:13mm}body{font:10pt/1.35 Arial,sans-serif;max-width:185mm;margin:0 auto;white-space:pre-wrap;overflow-wrap:anywhere;color:#111}@media screen{body{margin:25px auto;padding:16px;max-width:800px}}</style></head><body>'+safe(text)+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),250)}
+function printDocument(title,text){
+ const w=window.open('','_blank');
+ if(!w){alert('Autorise les fenêtres pop-up pour imprimer le document.');return}
+ const paragraphs=String(text||'').trim().split(/\n\s*\n/).map(p=>'<p>'+safe(p).replace(/\n/g,'<span class="linebreak"></span>')+'</p>').join('');
+ const styles='@page{size:A4;margin:19mm}*{box-sizing:border-box}body{font:11pt/1.55 Arial,Helvetica,sans-serif;color:#172033;background:#fff;margin:0}.letter-paper{max-width:172mm;margin:auto;overflow-wrap:anywhere}p{margin:0 0 13pt;orphans:2;widows:2}.linebreak{display:block}@media screen{body{background:#f0f3f8;padding:24px}.letter-paper{background:#fff;padding:19mm;box-shadow:0 4px 20px #0002}}';
+ w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+safe(title)+'</title><style>'+styles+'</style></head><body><main class="letter-paper">'+paragraphs+'</main></body></html>');
+ w.document.close();w.focus();setTimeout(()=>w.print(),350);
+}
 $('draftCv').onclick=()=>{const j=jobs.find(x=>x.id===activeCv);if(!j)return;if($('cvText').value.trim()&&!confirm('Remplacer le brouillon actuel ? Tu peux le sauvegarder avant de continuer.'))return;$('cvText').value=suggestedCv(j);updateCvLength()};
 $('closeCv').onclick=()=>$('cvDialog').close();
 $('saveCv').onclick=()=>{const j=jobs.find(x=>x.id===activeCv);if(j){if((j.cvText||'')!==$('cvText').value)j.cvChecked='Non';j.cvText=$('cvText').value;save();alert(cloudUser?'Brouillon CV enregistré, synchronisation en cours.':'Brouillon CV enregistré localement.')}};
