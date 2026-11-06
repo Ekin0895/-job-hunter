@@ -231,7 +231,7 @@ function suggestedCv(j){
  const focusedSkills=[...new Set([...tailored,...skills.split(' · ')])].join(' · ');
  return `EKIN IKIZER\n${target?target.toUpperCase()+' — ':''}${headline}\n\nPROFIL\n${profile}\n\nEXPÉRIENCES\n${experiences.join('\n')}\n\nCOMPÉTENCES\n${focusedSkills}\n\n${education}`;
 }
-function openCv(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeCv=id;$('cvJob').textContent=j.company+' — '+j.role;const isDatashake=/datashake/i.test(j.company||'');$('cvDatashakeExample').style.display=isDatashake?'inline-flex':'none';$('cvDocUrl').value=j.cvDocUrl||(isDatashake?'https://docs.google.com/document/d/1GiBvRT2EALH-h5nO_sjMeBQGSgoRJy9uGI4BqW3eQ2M/edit':'');for(const id of ['cvCheckBold','cvCheckPage','cvCheckFacts','cvCheckDesign'])$(id).checked=false;$('cvQualityStatus').textContent=j.cvChecked==='Oui'?'CV précédemment validé — recontrôler après toute modification.':'Non vérifié';$('cvDialog').showModal()}
+function openCv(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeCv=id;$('cvJob').textContent=j.company+' — '+j.role;$('cvQualityStatus').textContent='Le lien vers le CV ne signifie pas qu’il a été personnalisé. Vérifie le contenu dans Google Docs.';const isDatashake=/datashake/i.test(j.company||'');$('cvDatashakeExample').style.display=isDatashake?'inline-flex':'none';$('cvDocUrl').value=j.cvDocUrl||(isDatashake?'https://docs.google.com/document/d/1GiBvRT2EALH-h5nO_sjMeBQGSgoRJy9uGI4BqW3eQ2M/edit':'');for(const id of ['cvCheckBold','cvCheckPage','cvCheckFacts','cvCheckDesign'])$(id).checked=false;$('cvQualityStatus').textContent=j.cvChecked==='Oui'?'CV précédemment validé — recontrôler après toute modification.':'Non vérifié';$('cvDialog').showModal()}
 function printCvDocument(j,text){
  const w=window.open('','_blank');
  if(!w){alert('Autorise les fenêtres pop-up pour exporter le CV en PDF.');return}
@@ -304,6 +304,9 @@ $('jobform').onsubmit=e=>{
  const url=canonicalOfferUrl(v.url);
  const duplicate=jobs.find(j=>j.id!==v.id&&((url&&canonicalOfferUrl(j.url)===url)||(normalizedOfferText(j.company)===normalizedOfferText(v.company)&&normalizedOfferText(j.role)===normalizedOfferText(v.role))));
  if(duplicate&&!confirm('Une offre similaire existe déjà : '+duplicate.company+' — '+duplicate.role+'. Enregistrer quand même ?'))return;
+ // Préparer automatiquement la lettre dès la création d'une offre, sans écraser les retouches humaines.
+ if(!editing){v.letterText=suggestedLetter(v);v.letterChecked='Non';v.cvChecked='Non';v.cvPreparationStatus='Modèle Google Docs à personnaliser';v.documentsPreparedAt=new Date().toISOString()}
+ else if(original&&(original.company!==v.company||original.role!==v.role||original.requirements!==v.requirements||original.description!==v.description)){v.letterChecked='Non';v.cvChecked='Non';v.cvPreparationStatus='Offre modifiée : CV à réviser'}
  if(editing)jobs=jobs.map(j=>j.id===editing?v:j);else jobs.unshift(v);
  $('editor').close();save()
 };
