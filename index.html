@@ -260,7 +260,7 @@ async function cloudRequest(path,options={},authenticated=true){
 async function cloudRefresh(){
  if(!cloudSession?.refresh_token)throw Error('Session expirée. Reconnecte-toi.');
  const next=await cloudRequest('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:cloudSession.refresh_token})},false);
- cloudSession=next;localStorage.setItem(CLOUD_SESSION_KEY,JSON.stringify(next));return next;
+ cloudSession=next;cloudSession.expires_at=Math.floor(Date.now()/1000)+(next.expires_in||3600);localStorage.setItem(CLOUD_SESSION_KEY,JSON.stringify(cloudSession));return cloudSession;
 }
 async function cloudReady(){if(!cloudSession)return false;if(Date.now()/1000 > (cloudSession.expires_at||0)-90)await cloudRefresh();return true}
 async function cloudAuth(action){
