@@ -255,7 +255,7 @@ $('cvDocUrl').addEventListener('input',()=>{$('cvQualityStatus').textContent='Li
 // Google Identity Services OAuth implicit token flow. Tokens are never persisted.
 let cvGoogleAccessToken=null,cvGoogleTokenClient=null;
 const cvGoogleClientKey='jobhunter_google_oauth_client_id';
-$('googleOAuthClientId').value=localStorage.getItem(cvGoogleClientKey)||'';
+$('googleOAuthClientId').value=localStorage.getItem(cvGoogleClientKey)||'203282657894-bott9r0mmbtjr1h3tlf4stemfagrmf2m.apps.googleusercontent.com';
 function cvGoogleStatus(message){$('googleAuditStatus').textContent=message}
 function cvLoadGoogleIdentity(){return new Promise((resolve,reject)=>{if(window.google?.accounts?.oauth2){resolve();return}const old=document.querySelector('script[data-jobhunter-gis]');if(old){old.addEventListener('load',resolve,{once:true});old.addEventListener('error',()=>reject(Error('Impossible de charger Google Identity Services')),{once:true});return}const script=document.createElement('script');script.src='https://accounts.google.com/gsi/client';script.async=true;script.dataset.jobhunterGis='1';script.onload=resolve;script.onerror=()=>reject(Error('Impossible de charger Google Identity Services'));document.head.appendChild(script)})}
 function cvGoogleClientId(){const id=$('googleOAuthClientId').value.trim();if(!/^[0-9]+-[a-z0-9-]+\.apps\.googleusercontent\.com$/.test(id))throw Error('Identifiant OAuth Google invalide. Crée un client de type Application Web dans Google Cloud.');return id}
