@@ -1,0 +1,20 @@
+name: V10 smoke checks
+on:
+  push:
+    branches:
+      - develop/job-hunter-v10
+  pull_request:
+    branches:
+      - main
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate application syntax and basic helpers
+        run: node tests/smoke.mjs
