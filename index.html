@@ -250,9 +250,15 @@ async function cloudFetch(){
 function cloudRowsToMap(rows){return new Map(rows.map(r=>[r.local_id,structuredClone(r.data)]))}
 function cloudRowsToVersions(rows){return new Map(rows.map(r=>[r.local_id,r.updated_at]))}
 function cloudReplace(rows){
+ // Toujours conserver une sauvegarde avant un remplacement distant.
+ // Une sauvegarde différente n'est pas une autorisation d'écraser des modifications locales.
+ const incoming=rows.map(r=>({...r.data,id:r.local_id}));
+ const backupKey='jh-before-refresh-'+Date.now();
+ try{localStorage.setItem(backupKey,JSON.stringify({jobs,createdAt:new Date().toISOString()}))}catch{}
  cloudSnapshot=cloudRowsToMap(rows);
  cloudVersions=cloudRowsToVersions(rows);
- jobs=rows.map(r=>({...r.data,id:r.local_id}));
+ if(cloudUser)localStorage.setItem('jh-cloud-last-'+cloudUser.id,JSON.stringify(incoming));
+ jobs=incoming;
  localStorage.setItem(KEY,JSON.stringify(jobs));render();
 }
 async function cloudPull(){
@@ -289,6 +295,7 @@ async function cloudPush(){
    if(!result?.saved_updated_at)throw Error('Réponse de sauvegarde invalide pour '+id);
    cloudSnapshot.set(id,structuredClone(data));
    cloudVersions.set(id,result.saved_updated_at);
+   localStorage.setItem('jh-cloud-last-'+cloudUser.id,JSON.stringify([...cloudSnapshot.values()]));
   }
   for(const id of removed){
    const expected=cloudVersions.get(id);
@@ -300,6 +307,7 @@ async function cloudPush(){
    if(result!==true)throw Error('Suppression non confirmée pour '+id);
    cloudSnapshot.delete(id);
    cloudVersions.delete(id);
+   localStorage.setItem('jh-cloud-last-'+cloudUser.id,JSON.stringify([...cloudSnapshot.values()]));
   }
   const latest=new Map(jobs.map(j=>[j.id,j]));
   cloudPending=[...latest].some(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)))||[...cloudSnapshot.keys()].some(id=>!latest.has(id));
@@ -323,6 +331,23 @@ async function cloudStart(){
   const backupKey='jh-before-cloud-'+cloudUser.id;
   if(!localStorage.getItem(backupKey))localStorage.setItem(backupKey,JSON.stringify(jobs));
   if(cloudPending||$('editor').open||$('letterDialog').open){cloudMessage('Connexion établie. Actualisation reportée pour protéger les modifications en cours.');return}
+  // Une reprise de session ne doit pas effacer une sauvegarde locale divergente
+  // (par exemple après une fermeture de navigateur pendant une panne réseau).
+  const previous=localStorage.getItem('jh-cloud-last-'+cloudUser.id);
+  if(previous){
+   let baseline;
+   try{baseline=JSON.parse(previous)}catch{}
+   if(Array.isArray(baseline)){
+    const local=new Map(jobs.map(j=>[j.id,JSON.stringify(j)]));
+    const before=new Map(baseline.map(j=>[j.id,JSON.stringify(j)]));
+    const dirty=[...local].some(([id,v])=>before.get(id)!==v)||[...before.keys()].some(id=>!local.has(id));
+    if(dirty){
+     cloudSnapshot=new Map(baseline.map(j=>[j.id,structuredClone(j)]));
+     cloudMessage('⚠ Des modifications locales non synchronisées ont été détectées. Exporte le JSON avant toute actualisation ; aucune donnée n’a été écrasée.');
+     cloudPending=true;return;
+    }
+   }
+  }
   cloudReplace(rows);cloudMessage('☁ Connecté · '+rows.length+' offre(s) dans le cloud. Pour transférer tes anciennes offres, utilise « Importer mes offres locales ».');
  }catch(err){cloudMessage('Erreur cloud : '+err.message)}
 }
