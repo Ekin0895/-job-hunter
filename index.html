@@ -264,7 +264,7 @@ function cloudReplace(rows){
 async function cloudPull(){
  if(!cloudUser||cloudBusy||cloudPending||$('editor').open||$('letterDialog').open)return;
  cloudBusy=true;
- try{const rows=await cloudFetch();if(cloudPending||$('editor').open||$('letterDialog').open){cloudMessage('Actualisation différée : modifications locales ou formulaire ouvert.');return}cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
+ try{const rows=await cloudFetch();if(cloudPending||$('editor').open||$('letterDialog').open){cloudMessage('Actualisation différée : modifications locales ou formulaire ouvert.');return}const baseline=localStorage.getItem('jh-cloud-last-'+cloudUser.id);if(baseline&&baseline!==JSON.stringify(jobs)){cloudPending=true;cloudMessage('⚠ Données locales différentes du dernier état cloud connu. Actualisation bloquée ; exporte ton JSON.');return}cloudReplace(rows);cloudError=false;cloudMessage('☁ Synchronisé · '+rows.length+' offre(s) · '+new Date().toLocaleTimeString('fr-FR'))}
  catch(err){cloudError=true;cloudMessage('Synchronisation interrompue : '+err.message+' · modifications locales conservées.')}
  finally{cloudBusy=false}
 }
@@ -342,9 +342,27 @@ async function cloudStart(){
     const before=new Map(baseline.map(j=>[j.id,JSON.stringify(j)]));
     const dirty=[...local].some(([id,v])=>before.get(id)!==v)||[...before.keys()].some(id=>!local.has(id));
     if(dirty){
+     // Reconstituer le snapshot connu avant la panne. Ne jamais prendre la
+     // version distante actuelle comme version attendue sans comparaison.
      cloudSnapshot=new Map(baseline.map(j=>[j.id,structuredClone(j)]));
-     cloudMessage('⚠ Des modifications locales non synchronisées ont été détectées. Exporte le JSON avant toute actualisation ; aucune donnée n’a été écrasée.');
-     cloudPending=true;return;
+     const remote=cloudRowsToMap(rows);
+     const versions=cloudRowsToVersions(rows);
+     const changedIds=new Set([...local.keys(),...before.keys()].filter(id=>local.get(id)!==before.get(id)));
+     const conflicts=[...changedIds].filter(id=>{
+      const known=before.has(id)?before.get(id):null;
+      const distant=remote.has(id)?JSON.stringify(remote.get(id)):null;
+      return known!==distant;
+     });
+     if(conflicts.length){
+      cloudPending=true;
+      cloudMessage('⚠ Conflit distant sur '+conflicts.length+' offre(s). Modifications locales préservées ; exporte ton JSON avant toute actualisation.');
+      return;
+     }
+     cloudVersions=new Map([...versions].filter(([id])=>before.has(id)));
+     cloudPending=true;
+     cloudMessage('☁ Modifications locales retrouvées après interruption. Sauvegarde sécurisée en attente…');
+     queueCloudSave();
+     return;
     }
    }
   }
