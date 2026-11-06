@@ -125,15 +125,15 @@ function openEditor(id){
  $('deleteJob').classList.toggle('hidden',!editing);$('editor').showModal();
 }
 function canonicalOfferUrl(value){
- try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol))return '';u.hash='';for(const k of [...u.searchParams.keys()])if(/^utm_|^(trk|trackingId|refId|fbclid|gclid)$/i.test(k))u.searchParams.delete(k);return u.origin+u.pathname.replace(/\\/$/,'')+(u.search||'')}catch{return ''}
+ try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol))return '';u.hash='';for(const k of [...u.searchParams.keys()])if(/^(utm_|trk$|trackingId$|refId$|fbclid$|gclid$)/i.test(k))u.searchParams.delete(k);return u.origin+u.pathname.replace(/\/$/,'')+(u.search||'')}catch{return ''}
 }
-function normalizedOfferText(value){return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function normalizedOfferText(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
 $('jobform').onsubmit=e=>{
  e.preventDefault();
  const v={...(jobs.find(x=>x.id===editing)||{}),id:editing||'job-'+Date.now()};
  specs.forEach(([k])=>v[k]=$('f-'+k).value.trim());
  if(!v.company||!v.role){alert('Renseigne au minimum l’entreprise et le poste.');return}
- for(const k of ['url','cv','pdf','letter'])if(v[k]&&!/^https?:\\/\\/[^\\s]+$/i.test(v[k])){alert('Le champ '+k+' doit contenir une adresse http(s) valide.');return}
+ for(const k of ['url','cv','pdf','letter'])if(v[k]&&!/^https?:\/\/[^\s]+$/i.test(v[k])){alert('Le champ '+k+' doit contenir une adresse http(s) valide.');return}
  const url=canonicalOfferUrl(v.url);
  const duplicate=jobs.find(j=>j.id!==v.id&&((url&&canonicalOfferUrl(j.url)===url)||(normalizedOfferText(j.company)===normalizedOfferText(v.company)&&normalizedOfferText(j.role)===normalizedOfferText(v.role))));
  if(duplicate&&!confirm('Une offre similaire existe déjà : '+duplicate.company+' — '+duplicate.role+'. Enregistrer quand même ?'))return;
