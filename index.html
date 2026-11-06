@@ -127,7 +127,7 @@ function updateLetterLength(){const n=$('letterText').value.trim().length;$('let
 function updateCvLength(){const n=$('cvText').value.trim().length;$('cvLength').textContent=n+' caractères · '+(n>3000?'CV long : raccourcis-le et vérifie la pagination':n>0?'brouillon à relire · confirme qu’il tient sur une page':'brouillon vide')}
 $('letterText').addEventListener('input',updateLetterLength);
  $('cvText').addEventListener('input',updateCvLength);
-function openLetter(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeLetter=id;$('letterJob').textContent=j.company+' — '+j.role;$('letterText').value=j.letterText||'';updateLetterLength();$('letterDialog').showModal()}
+function openLetter(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeLetter=id;$('letterJob').textContent=j.company+' — '+j.role;$('letterText').value=j.letterText||suggestedLetter(j);updateLetterLength();$('letterDialog').showModal()}
 function suggestedLetter(j){
  const company=String(j.company||'votre entreprise').trim(),role=String(j.role||'ce poste').trim();
  const opening='Madame, Monsieur,\n\nJe vous adresse ma candidature pour le poste de '+role+' au sein de '+company+'.';
@@ -158,7 +158,7 @@ function suggestedCv(j){
  const req=String(j.requirements||'').trim();
  return `EKIN IKIZER\n${headline}\n\nPROFIL\n${profile}\n\nEXPÉRIENCES\n${experiences.join('\n')}\n\nCOMPÉTENCES\n${skills}\n\n${education}${req?'\n\nÀ VÉRIFIER AVANT ENVOI\nComparer les exigences de l’annonce avec tes expériences et ajouter uniquement les exemples vérifiés.':''}`;
 }
-function openCv(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeCv=id;$('cvJob').textContent=j.company+' — '+j.role;$('cvText').value=j.cvText||'';updateCvLength();$('cvDialog').showModal()}
+function openCv(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeCv=id;$('cvJob').textContent=j.company+' — '+j.role;$('cvText').value=j.cvText||suggestedCv(j);updateCvLength();$('cvDialog').showModal()}
 function printDocument(title,text){const w=window.open('','_blank');if(!w){alert('Autorise les fenêtres pop-up pour imprimer le document.');return}w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+safe(title)+'</title><style>@page{size:A4;margin:13mm}body{font:10pt/1.35 Arial,sans-serif;max-width:185mm;margin:0 auto;white-space:pre-wrap;overflow-wrap:anywhere;color:#111}@media screen{body{margin:25px auto;padding:16px;max-width:800px}}</style></head><body>'+safe(text)+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),250)}
 $('draftCv').onclick=()=>{const j=jobs.find(x=>x.id===activeCv);if(!j)return;if($('cvText').value.trim()&&!confirm('Remplacer le brouillon actuel ? Tu peux le sauvegarder avant de continuer.'))return;$('cvText').value=suggestedCv(j);updateCvLength()};
 $('closeCv').onclick=()=>$('cvDialog').close();
