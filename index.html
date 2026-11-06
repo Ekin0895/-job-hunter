@@ -195,7 +195,7 @@ $('downloadSearch').onclick=()=>{savePrefs();downloadBlob(new Blob([JSON.stringi
 function exportData(){const blob=new Blob([JSON.stringify({format:'jobhunter-local-v1',exportedAt:new Date().toISOString(),jobs,prefs},null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='job-hunter-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
 $('export').onclick=exportData;$('export2').onclick=exportData;
 $('importButton').onclick=()=>$('importFile').click();
-$('importFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(d.format!=='jobhunter-local-v1'||!Array.isArray(d.jobs)||!d.jobs.every(j=>typeof j.id==='string'&&typeof j.company==='string'&&typeof j.role==='string'))throw Error('Format invalide');if(cloudUser){const add=d.jobs.filter(j=>!jobs.some(x=>x.id===j.id||syncIdentity(x)===syncIdentity(j)));if(!confirm(`Ajouter ${add.length} offres absentes du cloud, sans écraser les offres existantes ?`))return;jobs.push(...add)}else{if(!confirm(`Remplacer les ${jobs.length} offres actuelles par les ${d.jobs.length} offres de la sauvegarde ?`))return;jobs=d.jobs;}prefs=Object.fromEntries(categories.map(c=>[c,{...defaults[c],...(d.prefs?.[c]||{})}]));localStorage.setItem(PREF,JSON.stringify(prefs));save();if(!cloudUser)location.reload()}catch(err){alert('Import impossible : '+err.message)}finally{e.target.value=''}};
+$('importFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(d.format!=='jobhunter-local-v1'||!Array.isArray(d.jobs)||!d.jobs.every(j=>typeof j.id==='string'&&typeof j.company==='string'&&typeof j.role==='string'))throw Error('Format invalide');if(cloudUser){const seen=new Set(jobs.map(x=>syncIdentity(x)));const ids=new Set(jobs.map(x=>x.id));const add=d.jobs.filter(j=>{const identity=syncIdentity(j);if(ids.has(j.id)||seen.has(identity))return false;ids.add(j.id);seen.add(identity);return true});if(!confirm(`Ajouter ${add.length} offres absentes du cloud, sans écraser les offres existantes ?`))return;jobs.push(...add)}else{if(!confirm(`Remplacer les ${jobs.length} offres actuelles par les ${d.jobs.length} offres de la sauvegarde ?`))return;jobs=d.jobs;}prefs=Object.fromEntries(categories.map(c=>[c,{...defaults[c],...(d.prefs?.[c]||{})}]));localStorage.setItem(PREF,JSON.stringify(prefs));save();if(!cloudUser)location.reload()}catch(err){alert('Import impossible : '+err.message)}finally{e.target.value=''}};
 const SYNC_KEY='jobhunter-sync-endpoint-v1', SYNC_LAST='jobhunter-sync-last-v1';
 let syncRunning=false;
 function syncStatus(msg){$('syncState').textContent=msg}
@@ -333,7 +333,7 @@ $('cloudMigrate').onclick=async()=>{
  if(!cloudUser)return;
  const backup=JSON.parse(localStorage.getItem('jh-before-cloud-'+cloudUser.id)||'[]');
  if(!Array.isArray(backup)||!backup.length){cloudMessage('Aucune ancienne offre locale trouvée sur ce navigateur. Utilise « Importer JSON » après une sauvegarde de ton ancien site.');return}
- const additions=backup.filter(j=>j?.id&&!cloudSnapshot.has(j.id));
+ const additions=backup.filter(j=>j?.id&&!cloudSnapshot.has(j.id)&&!jobs.some(x=>x.id===j.id||syncIdentity(x)===syncIdentity(j)));
  if(!additions.length){cloudMessage('Toutes les offres locales sont déjà présentes dans le cloud.');return}
  if(!confirm('Ajouter '+additions.length+' ancienne(s) offre(s) à ton cloud ? Les offres déjà présentes ne seront pas écrasées.'))return;
  jobs.push(...additions);save();await cloudPush();
@@ -341,7 +341,7 @@ $('cloudMigrate').onclick=async()=>{
 $('cloudLogout').onclick=async()=>{
  if(cloudPending){await cloudPush();if(cloudPending){alert('Sauvegarde cloud non terminée. Réessaie avant de te déconnecter.');return}}
  try{await cloudRequest('/auth/v1/logout',{method:'POST'})}catch{}
- cloudSession=null;cloudUser=null;cloudSnapshot=new Map();localStorage.removeItem(CLOUD_SESSION_KEY);
+ cloudSession=null;cloudUser=null;cloudSnapshot=new Map();cloudVersions=new Map();cloudPending=false;localStorage.removeItem(CLOUD_SESSION_KEY);
  // Après déconnexion, ne pas conserver les candidatures cloud dans l'interface ou le stockage local.
  jobs=[];localStorage.removeItem(KEY);render();cloudUI();
 };
