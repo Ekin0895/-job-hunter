@@ -141,6 +141,15 @@ function suggestedLetter(j){
  const context=description||requirements.length?'Votre annonce met en avant '+(requirements.length?'des besoins autour de '+requirements.join(', '):'des missions que je souhaite mieux comprendre')+'. Je pourrai préciser en entretien les exemples de mon parcours qui répondent le mieux à ces attentes.':'Je souhaite mettre ces compétences au service de votre équipe, tout en continuant à progresser sur les enjeux propres à ce poste.';
  return opening+'\n\n'+experience+'\n\n'+context+'\n\nJe serais heureux d’échanger avec vous sur mes expériences et sur les besoins de '+company+'.\n\nJe vous remercie de votre attention et vous prie d’agréer, Madame, Monsieur, mes salutations distinguées.\n\nEkin Ikizer';
 }
+function cvTailoring(j){
+ const text=(String(j.role||'')+' '+String(j.requirements||'')+' '+String(j.description||'')).toLowerCase();
+ const catalog=j.category==='Commercial'
+  ?[['HubSpot',/hubspot|crm/],['Prospection B2B',/prospection|commercial|business develop/],['Qualification de leads',/qualification|lead/],['Sales Navigator',/sales navigator|linkedin/],['Relation client',/relation client|fidélisation|support/]]
+  :j.category==='Admin / polyvalent'
+  ?[['Relation client',/relation client|client|accueil/],['Suivi des demandes',/suivi|administratif|dossier/],['Organisation',/organisation|coordination|planning/],['Google Workspace',/google|bureautique|tableur/],['Gestion de matériel',/matériel|logistique|stock/]]
+  :[['SEO',/seo|référencement|organique/],['Google Analytics 4',/analytics|ga4|mesure|analyse de données/],['Search Console',/search console|seo/],['Meta Ads',/meta|facebook ads|paid|publicité|acquisition/],['HubSpot',/hubspot|crm|automation|automatisation/],['SEMrush',/semrush|seo|audit/],['Gestion de projet web',/projet|coordination|refonte|site web/],['Emailing',/emailing|email marketing|newsletter|crm/]];
+ return catalog.filter(([,pattern])=>pattern.test(text)).map(([skill])=>skill);
+}
 function suggestedCv(j){
  const headline=j.category==='Commercial'?'BUSINESS DEVELOPMENT B2B JUNIOR':j.category==='Admin / polyvalent'?'ASSISTANT POLYVALENT — SUPPORT & ORGANISATION':'MARKETING DIGITAL — SEO & ACQUISITION';
  const profile=j.category==='Commercial'
@@ -156,7 +165,10 @@ function suggestedCv(j){
  const skills=j.category==='Commercial'?'Prospection B2B · Qualification · Prise de rendez-vous · HubSpot · Sales Navigator · Lusha · Ringover · Relation client':j.category==='Admin / polyvalent'?'Relation client · Suivi de demandes · Organisation · Gestion de matériel · Caisse · Mise en rayon · Réception de marchandises · Google Workspace':'SEO · Audits · Recherche de mots-clés · Optimisation on-site · Google Analytics 4 · Search Console · SEMrush · HubSpot · Meta Ads · Notion';
  const education='FORMATION\nICD Business School — MBA Marketing et Commercial | Dates à confirmer\nCFA CODIS — Licence marketing numérique et e-commerce | Dates à confirmer';
  const req=String(j.requirements||'').trim();
- return `EKIN IKIZER\n${headline}\n\nPROFIL\n${profile}\n\nEXPÉRIENCES\n${experiences.join('\n')}\n\nCOMPÉTENCES\n${skills}\n\n${education}${req?'\n\nÀ VÉRIFIER AVANT ENVOI\nComparer les exigences de l’annonce avec tes expériences et ajouter uniquement les exemples vérifiés.':''}`;
+ const tailored=cvTailoring(j);
+ const target=String(j.role||'').trim();
+ const focusedSkills=[...new Set([...tailored,...skills.split(' · ')])].join(' · ');
+ return `EKIN IKIZER\n${target?target.toUpperCase()+' — ':''}${headline}\n\nPROFIL\n${profile}\n\nEXPÉRIENCES\n${experiences.join('\n')}\n\nCOMPÉTENCES\n${focusedSkills}\n\n${education}${req?'\n\nÀ VÉRIFIER AVANT ENVOI\nComparer les exigences de l’annonce avec tes expériences et ajouter uniquement les exemples vérifiés.':''}`;
 }
 function openCv(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeCv=id;$('cvJob').textContent=j.company+' — '+j.role;$('cvText').value=j.cvText||suggestedCv(j);updateCvLength();$('cvDialog').showModal()}
 function printDocument(title,text){const w=window.open('','_blank');if(!w){alert('Autorise les fenêtres pop-up pour imprimer le document.');return}w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+safe(title)+'</title><style>@page{size:A4;margin:13mm}body{font:10pt/1.35 Arial,sans-serif;max-width:185mm;margin:0 auto;white-space:pre-wrap;overflow-wrap:anywhere;color:#111}@media screen{body{margin:25px auto;padding:16px;max-width:800px}}</style></head><body>'+safe(text)+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),250)}
