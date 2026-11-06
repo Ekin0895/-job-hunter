@@ -91,8 +91,12 @@ assert.match(html,/id="cvPreview"/);
 assert.match(html,/id="cvChecks"/);
 assert.match(code,/function cvReviewIssues/);
 // Execute cloud replacement with an isolated localStorage mock.
-const cloudFunctions=['cloudRowsToMap','cloudRowsToVersions','sameJobSet','cloudReplace']
- .map(name=>code.match(new RegExp('function '+name+'\\\\([^)]*\\\\)\\\\{[\\\\s\\\\S]*?\\\\n\\\\}'))?.[0]);
+const cloudFunctions=[
+ code.match(/function cloudRowsToMap[^\n]*/)?.[0],
+ code.match(/function cloudRowsToVersions[^\n]*/)?.[0],
+ code.match(/function sameJobSet\(a,b\)\{[\s\S]*?\n\}/)?.[0],
+ code.match(/function cloudReplace\(rows\)\{[\s\S]*?\n\}/)?.[0]
+];
 assert.ok(cloudFunctions.every(Boolean),'Cloud replacement helpers must be extractable');
 const storageMap=new Map();
 let blocked=false,renderCount=0,quotaFull=false;
