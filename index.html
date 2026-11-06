@@ -295,10 +295,14 @@ async function cloudPush(){
   if(changes.length){
    const payload=changes.map(([id,data])=>({user_id:cloudUser.id,local_id:id,data}));
    await cloudRequest('/rest/v1/job_offers?on_conflict=user_id,local_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(payload)});
+   // Une écriture réussie doit être reflétée immédiatement dans le snapshot :
+   // si une suppression ultérieure échoue, une nouvelle tentative n'écrasera pas ces lignes.
+   for(const [id,j] of changes)cloudSnapshot.set(id,structuredClone(j));
   }
-  for(const id of removed)await cloudRequest('/rest/v1/job_offers?local_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
-  for(const [id,j] of changes)cloudSnapshot.set(id,structuredClone(j));
-  for(const id of removed)cloudSnapshot.delete(id);
+  for(const id of removed){
+   await cloudRequest('/rest/v1/job_offers?user_id=eq.'+encodeURIComponent(cloudUser.id)+'&local_id=eq.'+encodeURIComponent(id),{method:'DELETE'});
+   cloudSnapshot.delete(id);
+  }
   // Si une édition est survenue pendant la requête, conserver son statut en attente.
   const latest=new Map(jobs.map(j=>[j.id,j]));
   cloudPending=[...latest].some(([id,j])=>JSON.stringify(j)!==JSON.stringify(cloudSnapshot.get(id)))||[...cloudSnapshot.keys()].some(id=>!latest.has(id));
