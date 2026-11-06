@@ -19,6 +19,8 @@ for(const [label,pattern] of [
  ['Atomic cloud delete RPC',/\/rest\/v1\/rpc\/job_hunter_delete/],
  ['Version tracking',/cloudRowsToVersions/],
  ['Version-checked delete',/p_expected_updated_at:expected/],
+ ['Unsynced edits recovery',/jh-cloud-last-/],
+ ['Refresh backup',/jh-before-refresh-/],
  ['Cover letter draft',/function suggestedLetter/],
  ['Manual CV verification',/cvChecked/],
  ['Manual letter verification',/letterChecked/],
