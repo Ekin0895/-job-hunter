@@ -174,7 +174,7 @@ function updateCvChecks(){
 }
 function updateCvLength(){const n=$('cvText').value.trim().length;$('cvLength').textContent=n+' caractères · '+(n>3000?'CV long : raccourcis-le et vérifie la pagination':n>0?'brouillon à relire · confirme qu’il tient sur une page':'brouillon vide');updateCvPreview();updateCvChecks()}
 $('letterText').addEventListener('input',updateLetterLength);
- $('cvText').addEventListener('input',updateCvLength);
+ // CV Google Docs: no legacy text editor input to bind.
 function openLetter(id){const j=jobs.find(x=>x.id===id);if(!j)return;activeLetter=id;$('letterJob').textContent=j.company+' — '+j.role;$('letterText').value=j.letterText||suggestedLetter(j);updateLetterLength();$('letterDialog').showModal()}
 function suggestedLetter(j){
  const company=String(j.company||'votre entreprise').trim(),role=String(j.role||'ce poste').trim();
