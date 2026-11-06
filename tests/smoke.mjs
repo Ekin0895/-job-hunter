@@ -22,6 +22,8 @@ for(const [label,pattern] of [
  ['Unsynced edits recovery',/jh-cloud-last-/],
  ['Refresh backup',/jh-before-refresh-/],
  ['Remote recovery conflict detection',/const conflicts=\[\.\.\.changedIds\]/],
+ ['Recovery preserves independent remote edits',/const merged=new Map\(\[\.\.\.remote\]/],
+ ['Recovery reapplies only locally changed jobs',/for\(const id of changedIds\)/],
  ['Order-independent baseline comparison',/function sameJobSet/],
  ['Cover letter draft',/function suggestedLetter/],
  ['Personalized CV draft',/function suggestedCv/],
