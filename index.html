@@ -248,7 +248,7 @@ function printDocument(title,text){
  w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+safe(title)+'</title><style>'+styles+'</style></head><body><main class="letter-paper">'+paragraphs+'</main></body></html>');
  w.document.close();w.focus();setTimeout(()=>w.print(),350);
 }
-function validCvDocUrl(value){try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='docs.google.com'&&/^\\/document\\/d\\/[a-zA-Z0-9_-]+\\//.test(u.pathname)}catch{return false}}
+function validCvDocUrl(value){try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='docs.google.com'&&u.pathname.startsWith('/document/d/')&&u.pathname.split('/')[3]?.length>5}catch{return false}}
 $('closeCv').onclick=()=>$('cvDialog').close();
 $('saveCvDoc').onclick=()=>{const j=jobs.find(x=>x.id===activeCv);if(!j)return;const url=$('cvDocUrl').value.trim();if(!validCvDocUrl(url)){alert('Colle un lien Google Docs valide (https://docs.google.com/document/d/…).');return}j.cvDocUrl=url;j.cvChecked='Non';save();alert('Lien du CV Google Docs enregistré pour cette candidature. Vérifie le document avant envoi.')};
 $('openCvDoc').onclick=()=>{const url=$('cvDocUrl').value.trim();if(!validCvDocUrl(url)){alert('Ajoute un lien Google Docs valide.');return}window.open(url,'_blank','noopener,noreferrer')};
