@@ -72,10 +72,17 @@ function render(){
 const logoDomains={'klox':'klox.fr','datashake':'datashake.fr','jja':'jja-sa.com','happypal':'happypal.fr','extracadabra':'extracadabra.com'};
 function companyLogo(j){const name=String(j.company||'').trim();const key=normText(name);const domain=logoDomains[key];const initials=name.split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'•';return `<span class="company-logo" title="${safe(name)}"><span class="logo-initials">${safe(initials)}</span>${domain?`<img loading="lazy" alt="" src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128" onload="if(this.naturalWidth>32){this.previousElementSibling.style.display='none'}else{this.remove()}" onerror="this.remove()">`:''}</span>`}
 function jobCard(j){return `<div class="job"><div class="job-ident">${companyLogo(j)}<div><strong>${safe(j.company)} · ${safe(j.role)}</strong><div class="meta">${safe(j.location)} · ${safe(j.contract)} · ${euro(j.salaryMin)} – ${euro(j.salaryMax)}</div><div class="meta"><span class="pill">${safe(j.status)}</span> ${safe(j.remote||'')}</div></div></div><button class="btn secondary" data-edit="${safe(j.id)}">Ouvrir</button></div>`}
+function cvTemplateFor(j){
+ if(j.category==='Commercial')return {name:'CV commercial (modèle Happypal)',url:'https://docs.google.com/document/d/1noZ8VukP19EPlOqrLwBmTx1cqEigSuvakEvVBuTiJaA/copy'};
+ if(j.category==='Marketing')return {name:'CV marketing (modèle Klox)',url:'https://docs.google.com/document/d/1YomBw9SADcUbL1Nap0e3cCuDTn-oSOluRFrDmRifZi0/copy'};
+ return null;
+}
 function actionLinks(j){
  const valid=u=>/^https?:\/\/[^\s]+$/i.test(u||'');
  const mismatchedKlox=String(j.company||'').toLowerCase().trim()==='klox'&&/assistant-e-account-manager-culture-edition-cinema-stage/i.test(j.url||'');
+ const template=cvTemplateFor(j);
  return `<div class="toolbar" style="margin-top:14px">
+ ${template?`<a class="actionlink alt" href="${safe(template.url)}" target="_blank" rel="noopener noreferrer" title="Créer une copie Google Docs ; la personnalisation reste manuelle">▤ Copier le modèle de CV</a>`:''}
  ${mismatchedKlox?'<span class="meta" role="alert" style="color:#f3bc75">⚠ Lien incorrect : cette annonce Klox concerne un stage Account Manager, pas le poste SEO/GEO.</span>':''}
  ${valid(j.url)&&!mismatchedKlox?`<a class="actionlink" href="${safe(j.url)}" target="_blank" rel="noopener noreferrer">↗ Postuler</a>`:`<button class="btn secondary" data-edit="${safe(j.id)}" title="Ajouter le lien de l'annonce">＋ Ajouter le lien pour postuler</button>`}
  ${valid(j.pdf)?`<a class="actionlink alt" href="${safe(j.pdf)}" target="_blank" rel="noopener noreferrer">↓ Ouvrir le CV PDF</a>`:''}
