@@ -21,6 +21,8 @@ for(const [label,pattern] of [
  ['Version-checked delete',/p_expected_updated_at:expected/],
  ['Unsynced edits recovery',/jh-cloud-last-/],
  ['Refresh backup',/jh-before-refresh-/],
+ ['Remote recovery conflict detection',/const conflicts=\[\.\.\.changedIds\]/],
+ ['Order-independent baseline comparison',/function sameJobSet/],
  ['Cover letter draft',/function suggestedLetter/],
  ['Manual CV verification',/cvChecked/],
  ['Manual letter verification',/letterChecked/],
@@ -33,5 +35,8 @@ vm.runInContext(helpers,context);
 assert.equal(vm.runInContext("canonicalOfferUrl('https://example.com/jobs/123/?utm_source=x&trk=y')",context),'https://example.com/jobs/123');
 assert.equal(vm.runInContext("canonicalOfferUrl('javascript:alert(1)')",context),'');
 assert.equal(vm.runInContext("normalizedOfferText('Chef de Projet SEO/GÉO')===normalizedOfferText('chef de projet seo geo')",context),true);
+const sameJobSet=vm.runInNewContext('('+code.match(/function sameJobSet\\(a,b\\)\\{[\\s\\S]*?\\n\\}/)[0]+')');
+assert.equal(sameJobSet([{id:'a',company:'A'},{id:'b',company:'B'}],[{id:'b',company:'B'},{id:'a',company:'A'}]),true);
+assert.equal(sameJobSet([{id:'a',company:'A'}],[{id:'a',company:'Changed'}]),false);
 console.log('PASS: syntax, feature presence and URL/title normalization.');
 console.log('NOT TESTED: browser rendering, cloud concurrency, authentication, Google Docs layout, PDF pagination.');
