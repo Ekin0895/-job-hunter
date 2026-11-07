@@ -2,35 +2,36 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#173c32"><meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#0d1726"><meta name="referrer" content="no-referrer">
+  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Job Hunter">
   <title>Job Hunter — Mes candidatures</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=dark-20261107">
 </head>
 <body>
 <aside class="sidebar">
-  <a class="brand" href="#"><span class="brand-mark">jh<span>↗</span></span><span>Job Hunter<small>Votre prochain chapitre.</small></span></a>
+  <a class="brand" href="#"><span class="brand-mark">JH</span><span>JOB <b>HUNTER</b><small>Votre espace de candidatures.</small></span></a>
   <div class="nav-label">MON ESPACE</div>
   <nav aria-label="Navigation principale">
-    <button class="nav active" data-view="candidates"><span>▦</span>Mes candidatures <b id="navCount">0</b></button>
-    <button class="nav" data-view="history"><span>◷</span>Historique</button>
-    <button class="nav" data-view="activity"><span>≋</span>Activité de Work</button>
+    <button class="nav active" data-view="candidates"><span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z"/></svg></span>Mes candidatures <b id="navCount">0</b></button>
+    <button class="nav" data-view="history"><span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6 M3 3v6h6 M12 7v5l3 2"/></svg></span>Historique</button>
+    <button class="nav" data-view="activity"><span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M3 7h4l3-4 4 8 3-4h4 M3 17h18"/></svg></span>Activité de Work</button>
   </nav>
-  <div class="sidebar-bottom"><div class="work-note"><span class="dot"></span><strong>Préparé avec Work</strong><p>Vos offres et documents, réunis au même endroit.</p></div><button class="nav" id="openSettings"><span>⚙</span>Connexion & réglages</button><div class="profile"><span>EI</span><div>Ekin Ikizer<small>Espace personnel</small></div><i>●</i></div></div>
+  <div class="sidebar-bottom"><div class="work-note"><span class="dot"></span><strong>Préparé avec Work</strong><p>Vos offres et documents, réunis au même endroit.</p></div><button class="nav" id="openSettings"><span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z"/></svg></span>Connexion & réglages</button><div class="profile"><span>EI</span><div>Ekin Ikizer<small>Espace personnel</small></div><i>●</i></div></div>
 </aside>
 <main>
-  <header class="topbar"><div class="breadcrumb">Mon espace <span>/</span> <strong id="viewLabel">Mes candidatures</strong></div><div class="top-actions"><span class="sync-label" id="syncLabel">Non connecté</span><button class="icon-btn" id="refresh" aria-label="Actualiser les candidatures" title="Actualiser">↻</button><button class="button primary compact" id="connect">Connecter Google <span>↗</span></button></div></header>
+  <header class="topbar"><div class="mobile-brand"><span>JH</span>Job Hunter</div><div class="breadcrumb">Mon espace <span>/</span> <strong id="viewLabel">Mes candidatures</strong></div><div class="top-actions"><span class="sync-label" id="syncLabel">Non connecté</span><button class="icon-btn" id="refresh" aria-label="Actualiser les candidatures" title="Actualiser">↻</button><button class="button primary compact" id="connect">Connecter Google <span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M7 17 17 7 M7 7h10v10"/></svg></span></button></div></header>
   <div id="demoBanner" class="banner demo" hidden>Aperçu de l’interface · données fictives · aucune écriture Google</div>
   <div id="notice" role="status" class="banner" hidden></div>
-  <section class="page-heading"><div><div class="eyebrow" id="eyebrow">LA SUITE VOUS APPARTIENT</div><h1 id="pageTitle">Vos prochaines opportunités<span>.</span></h1><p id="pageDescription">Les bonnes offres. Des candidatures préparées. À vous de choisir la suite.</p></div><button class="button secondary" id="importOffer"><span>＋</span> Ajouter une annonce</button></section>
+  <section class="page-heading"><div><div class="eyebrow" id="eyebrow">VOTRE PROCHAIN CHAPITRE</div><h1 id="pageTitle">Vos prochaines opportunités<span>.</span></h1><p id="pageDescription">Les bonnes offres. Des candidatures préparées. À vous de choisir la suite.</p></div><button class="button secondary" id="importOffer"><span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M12 5v14 M5 12h14"/></svg></span> Ajouter une annonce</button></section>
   <section class="stats" aria-label="Résumé des candidatures">
-    <article><div>À vérifier <span>◉</span></div><strong id="statReview">—</strong><small>Vos documents attendent votre regard</small></article>
-    <article><div>Prêtes à postuler <span>↗</span></div><strong id="statReady">—</strong><small>Le prochain pas, c’est vous</small></article>
-    <article><div>Candidatures envoyées <span>✓</span></div><strong id="statSent">—</strong><small>Des opportunités en chemin</small></article>
-    <article><div>Entretiens <span>◌</span></div><strong id="statInterviews">—</strong><small>On passe aux choses concrètes</small></article>
+    <article><div>À vérifier <span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M12 7v5 M12 16h.01"/></svg></span></div><strong id="statReview">—</strong><small>CV et lettres à relire</small></article>
+    <article><div>Prêtes à postuler <span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M7 17 17 7 M7 7h10v10"/></svg></span></div><strong id="statReady">—</strong><small>Documents validés par vous</small></article>
+    <article><div>Candidatures envoyées <span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span></div><strong id="statSent">—</strong><small>Votre historique de candidatures</small></article>
+    <article><div>Entretiens <span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M16 4a4 4 0 0 1 0 7 M22 21v-2a4 4 0 0 0-3-3.9"/></svg></span></div><strong id="statInterviews">—</strong><small>Vos échanges avec les recruteurs</small></article>
   </section>
   <section class="workspace" id="candidateSection">
     <div class="section-title"><h2 id="listHeading">Votre sélection <span id="listCount">0</span></h2><span class="subtle" id="lastUpdate">Les données apparaîtront après connexion</span></div>
-    <div class="filters"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Rechercher un poste, une entreprise…" aria-label="Rechercher les candidatures"></label><label class="select-filter"><select id="statusFilter" aria-label="Filtrer par statut"><option value="">Tous les statuts</option></select></label><label class="select-filter"><select id="sort" aria-label="Trier les candidatures"><option value="score">Meilleure adéquation</option><option value="recent">Ajoutées récemment</option><option value="company">Entreprise A → Z</option></select></label></div>
+    <div class="filters"><label class="search"><span aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24"><path d="M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14 M15 15l6 6"/></svg></span><input id="search" type="search" placeholder="Rechercher un poste, une entreprise…" aria-label="Rechercher les candidatures"></label><label class="select-filter"><select id="statusFilter" aria-label="Filtrer par statut"><option value="">Tous les statuts</option></select></label><label class="select-filter"><select id="sort" aria-label="Trier les candidatures"><option value="score">Meilleure adéquation</option><option value="recent">Ajoutées récemment</option><option value="company">Entreprise A → Z</option></select></label></div>
     <div class="filter-chips" id="chips"><button class="chip active" data-status="">Tout voir</button><button class="chip" data-status="À vérifier">À vérifier</button><button class="chip" data-status="Prêt à postuler">Prêtes à postuler</button><button class="chip" data-status="Candidature envoyée">Envoyées</button></div>
     <div id="jobs" class="jobs"></div>
     <div id="empty" class="empty"><div class="empty-symbol">↗</div><h2>Votre espace est prêt à se remplir.</h2><p>Connectez votre compte Google pour retrouver les candidatures préparées par Work, leurs CV et leurs lettres.</p><button class="button primary" id="emptyConnect">Connecter mon compte Google</button><small>Vos documents restent privés dans votre Google Drive.</small></div>

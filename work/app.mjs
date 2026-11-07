@@ -1,6 +1,7 @@
 import {DEFAULT_CONFIG} from './config.mjs';
 import {resolveConfig,STATUSES,safeUrl,sheetId,clientId,summarize,loadWorkbook,saveStatus} from './data.mjs';
 const $=id=>document.getElementById(id),e=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=value;return n};
+function glyph(name){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),p=document.createElementNS(ns,'path');svg.setAttribute('class','glyph');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');p.setAttribute('d',({external:'M7 17 17 7 M7 7h10v10',pin:'M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0 M12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6',home:'M3 10l9-7 9 7 M5 9v12h14V9 M9 21v-7h6v7'})[name]);svg.append(p);return svg;}
 const KEY=DEFAULT_CONFIG.storageKey||'job-hunter-work-config-v1';
 let config={},token=null,expiresAt=0,data={jobs:[],history:[],activity:[]},view='candidates',busy=false,selected=null,updated=null,stale=false;
 const demo=new URLSearchParams(location.search).get('demo')==='1';
@@ -11,14 +12,14 @@ try{const setup=new URLSearchParams(location.hash.slice(1));if(setup.has('sheet'
 const defaultClient=DEFAULT_CONFIG.client;
 for(const s of STATUSES){const o=e('option','',s);o.value=s;$('statusFilter').append(o)}
 function notice(message,error=false){$('notice').textContent=message;$('notice').className='banner'+(error?' error':'');$('notice').hidden=!message;}
-function syncLabel(){const active=token&&Date.now()<expiresAt;$('syncLabel').textContent=demo?'Aperçu · données fictives':stale?'Actualisation échouée · données conservées':active?(updated?'Actualisé à '+updated.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'Google connecté'):'Connexion Google nécessaire';$('connect').textContent=active?'Reconnecter Google ↗':'Connecter Google ↗';$('refresh').disabled=busy;}
-function link(label,url,cls='button secondary'){const u=safeUrl(url);if(!u)return null;const a=e('a',cls,label);a.href=u;a.target='_blank';a.rel='noopener noreferrer';return a;}
+function syncLabel(){const active=token&&Date.now()<expiresAt;$('syncLabel').textContent=demo?'Aperçu · données fictives':stale?'Actualisation échouée · données conservées':active?(updated?'Actualisé à '+updated.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'Google connecté'):'Connexion Google nécessaire';$('connect').textContent=active?'Reconnecter Google':'Connecter Google';$('refresh').disabled=busy;}
+function link(label,url,cls='button secondary'){const u=safeUrl(url);if(!u)return null;const a=e('a',cls,label.replace(/↗/g,'').trim());a.append(glyph('external'));a.href=u;a.target='_blank';a.rel='noopener noreferrer';return a;}
 const initials=name=>name.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
 function statusBadge(status){const cls=status==='Prêt à postuler'?' ready':status==='Candidature envoyée'?' sent':status==='Refus'?' refused':'';const n=e('span','status'+cls);n.append(e('i','','●'),document.createTextNode(status||'À analyser'));return n;}
 function card(j){
  const n=e('article','job-card');const top=e('div','card-top'),info=e('div');info.append(e('div','company-name',j.company),e('div','card-source',j.contract||'Contrat à vérifier'));top.append(e('div','company-icon',initials(j.company)),info);
  if(j.score){const score=e('div','score');score.append(e('strong','',j.score),document.createTextNode(' / 100'));top.append(score)}
- n.append(top,e('h3','',j.role));const meta=e('div','job-meta');meta.append(e('span','','⌖ '+(j.location||'Adresse non précisée')),e('span','','⌂ '+(j.remote||'Télétravail non précisé')));n.append(meta,e('p','salary-line',j.salary||'Salaire non publié'),e('hr','card-separator'));
+ n.append(top,e('h3','',j.role));const meta=e('div','job-meta');for(const [icon,text]of [['pin',j.location||'Adresse non précisée'],['home',j.remote||'Télétravail non précisé']]){const row=e('span');row.append(glyph(icon),document.createTextNode(text));meta.append(row)}n.append(meta,e('p','salary-line',j.salary||'Salaire non publié'),e('hr','card-separator'));
  const st=e('div','card-status');st.append(statusBadge(j.status),e('span','',j.verified?'Vérifiée le '+j.verified:'Vérification à confirmer'));n.append(st);
  const complete=!!(j.cv&&j.letter);n.append(e('p','checkline'+(!complete?' missing':''),complete?'✓ CV et lettre disponibles · contrôles dans le détail':'◷ Documents encore à préparer ou à vérifier'));
  const actions=e('div','card-actions');for(const [label,url]of [['↗ CV',j.cv],['↗ Lettre',j.letter]]){const a=link(label,url);if(a)actions.append(a)}

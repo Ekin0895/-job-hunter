@@ -46,3 +46,7 @@ L'aperçu `?demo=1` montre uniquement des exemples fictifs. Il ne prouve ni une 
 Le déploiement privé fournit le tableau et le client OAuth dans `config.mjs`. Le dépôt public contient uniquement un modèle sans identifiant de tableau personnel. Une session neuve utilise ces valeurs validées automatiquement ; une configuration utilisateur valide reste prioritaire. Les jetons Google restent en mémoire uniquement : une reconnexion est encore nécessaire après fermeture ou expiration. Aucun stockage persistant de jeton n’a été ajouté.
 
 Lecture et écriture réelles vérifiées le 7 novembre 2026 : les trois dossiers et les 45 offres historiques se chargent dans le site publié ; statut Numberly modifié temporairement en « À analyser », relu puis restauré et relu en « À vérifier ». L’exécution quotidienne autonome reste à valider.
+
+## Refonte visuelle sombre — 7 novembre 2026
+
+Palette bleu nuit / vert menthe issue de l’ancienne application, cartes et états plus lisibles, icônes SVG locales, navigation tactile fixe et champs de saisie adaptés à iPhone. Le module d’accès Google, la préconfiguration privée et le schéma du registre restent les mêmes. Vérification sur écran de bureau et viewport de 390 px : absence de débordement horizontal, filtres et ouverture de détail. Les 14 tests du nouveau parcours passent ; les anciens tests V10 restent indépendants.
