@@ -61,3 +61,13 @@ Safe areas iOS : marge haute env(safe-area-inset-top) +12px, marges latérales e
 Logos officiels locaux pour les six dossiers préparés, registre extensible par Work pour les futurs dossiers. Logos des cabinets clairement identifiés si client confidentiel. Les autres entreprises inconnues affichent un pictogramme sans initiales ; aucun faux logo n’est créé. La connexion durable Google et les notifications Web Push ne sont pas mises en place : l’app statique actuelle n’a pas de serveur de renouvellement Google ni d’envoi push. Les notifications ChatGPT de la tâche dépendent des réglages de l’utilisateur.
 
 Validation de cette évolution : 34 tests passent. Sur la copie privée, CDI + CDD et minimum36000 enregistrés et relus dans Recherche ; une demande LinkedIn inscrite et relue dans Imports ; doublon refusé sans deuxième ligne. Téléchargement de CV et lettre via export Google Docs : signatures PDF vérifiées ; CV A4 une page. Les critères du tableau principal sont conservés à leurs valeurs initiales.
+
+## Messages de relance
+
+Dans un dossier envoyé ou en entretien, Préparer une relance ouvre un brouillon modifiable, avec objet et message à copier séparément. Étapes Après candidature et Après un entretien déjà réalisé ; le second cas est un choix explicite, jamais déduit d’un simple statut RH. Seules les dates connues et non futures sont reprises. Une mission réellement enregistrée contextualise le texte, sans résultats ni compétences inventés. Nom du contact facultatif ; aucun destinataire ni adresse deviné. Le texte modifié reste dans la fenêtre, aucun envoi ni écriture Google n’est déclenché. Aujourd’hui → relance échue ouvre directement ce brouillon.
+
+
+### Contacts LinkedIn et relances
+L'onglet privé Contacts (A:I) associe chaque candidature à un profil LinkedIn sourcé, un rôle, un niveau de certitude, une justification et une date de recherche. L'application affiche ces informations dans la fiche et le brouillon de relance. La présence dans une équipe ne prouve pas l'attribution du dossier : les relais restent explicitement à confirmer. Aucun lien n'est inventé et une absence de contact est affichée honnêtement. Les profils invalides, les sources absentes et les identifiants en doublon bloquent la suggestion.
+Les messages de relance sont modifiables puis copiables ; aucun envoi, aucune modification de statut ni aucune date inventée. Le choix après-entretien reste explicite.
+Tests : `node --test tests/*.test.mjs`.

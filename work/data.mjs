@@ -1,3 +1,4 @@
+import {parseContacts} from './contacts.mjs';
 import {parsePreferences} from './preferences.mjs';
 export const EXTRA_HEADERS=['Catégorie','Favori','Écartée',"Motif d'exclusion",'PDF CV','PDF lettre','Date entretien','PDF générés le','Notes personnelles'];
 export const STATUSES=['À analyser','Documents en préparation','À vérifier','Prêt à postuler','Candidature envoyée','Entretien RH','Entretien technique','Entretien final','Refus','Offre reçue','Abandonné'];
@@ -22,7 +23,7 @@ export function parseWorkbook(book){
  const history=gridRows(old).filter(r=>r.index>=8&&/^\d+$/.test(str(r.cells[0]))).map(({cells:c})=>({id:'JH-'+str(c[0]).padStart(4,'0'),company:str(c[3]),role:str(c[4]),status:str(c[1])==='Prête'?'À analyser':str(c[1])==='Entretien'?'Entretien RH':str(c[1]),offer:cellUrl(c[10]),cv:'',letter:'',score:0,action:str(c[12]),found:'',location:str(c[5]),salary:str(c[6]),remote:str(c[7]),source:'Historique conservé',caution:str(c[9]),fit:str(c[8]),verified:str(c[11]),followUp:str(c[13]),notes:str(c[14]),processing:'Historique — documents non vérifiés dans ce registre',editable:false,category:'',favorite:false,discarded:false,reason:'',applied:'',interview:'',personalNotes:''}));
  const log=book.sheets?.find(s=>s.properties?.title==='Journal');
  const activity=gridRows(log).filter(r=>r.index>0&&str(r.cells[0])).map(({cells:c})=>({id:str(c[0]),started:str(c[1]),finished:str(c[2]),state:str(c[3]),newOffers:str(c[4]),completed:str(c[5]),evidence:str(c[6]),error:str(c[7])})).reverse();
- return {...parsePreferences(book),jobs,history,activity,extended,sheetId:prepared.properties.sheetId,tableId:prepared.tables?.[0]?.tableId||'',lastOccupiedRow:Math.max(0,...entries.filter(r=>r.cells.some(c=>str(c))).map(r=>r.index)),rowCapacity:prepared.properties.gridProperties?.rowCount||500};
+ return {contacts:parseContacts(book),...parsePreferences(book),jobs,history,activity,extended,sheetId:prepared.properties.sheetId,tableId:prepared.tables?.[0]?.tableId||'',lastOccupiedRow:Math.max(0,...entries.filter(r=>r.cells.some(c=>str(c))).map(r=>r.index)),rowCapacity:prepared.properties.gridProperties?.rowCount||500};
 }
 export function mergedJobs({jobs,history}){const m=new Map(history.map(j=>[j.id,j]));for(const j of jobs)m.set(j.id,j);return [...m.values()]}
 export function summarize(data){const all=mergedJobs(data);return {review:data.jobs.filter(j=>j.status==='À vérifier').length,ready:data.jobs.filter(j=>j.status==='Prêt à postuler'&&j.cv&&j.letter).length,sent:all.filter(j=>j.status==='Candidature envoyée').length,interviews:all.filter(j=>j.status.startsWith('Entretien')).length};}
@@ -44,7 +45,7 @@ export async function googleRequest(url,token,{fetcher=fetch,...options}={}){
   return data;
  }catch(e){if(e.name==='AbortError')throw Error('Délai Google dépassé. Actualisez pour vérifier le résultat avant toute nouvelle tentative.');throw e}finally{clearTimeout(timer)}
 }
-export function workbookUrl(id){if(!sheetId(id)||sheetId(id)!==id)throw Error('Tableau invalide');const q=new URLSearchParams();for(const r of ['Candidatures!A1:AM500','Suivi!A8:O953','Journal!A1:H100','Recherche!A1:D5','Imports!A1:H501','Logos!A1:D501'])q.append('ranges',r);q.set('includeGridData','true');q.set('fields','sheets(properties(sheetId,title,gridProperties),tables(tableId,range),data(startRow,rowData(values(formattedValue,userEnteredValue,effectiveValue,hyperlink,textFormatRuns,userEnteredFormat(textFormat(link))))))');return 'https://sheets.googleapis.com/v4/spreadsheets/'+id+'?'+q;}
+export function workbookUrl(id){if(!sheetId(id)||sheetId(id)!==id)throw Error('Tableau invalide');const q=new URLSearchParams();for(const r of ['Candidatures!A1:AM500','Suivi!A8:O953','Journal!A1:H100','Recherche!A1:D5','Imports!A1:H501','Logos!A1:D501','Contacts!A1:I501'])q.append('ranges',r);q.set('includeGridData','true');q.set('fields','sheets(properties(sheetId,title,gridProperties),tables(tableId,range),data(startRow,rowData(values(formattedValue,userEnteredValue,effectiveValue,hyperlink,textFormatRuns,userEnteredFormat(textFormat(link))))))');return 'https://sheets.googleapis.com/v4/spreadsheets/'+id+'?'+q;}
 export async function loadWorkbook(id,token,fetcher){return parseWorkbook(await googleRequest(workbookUrl(id),token,{fetcher}));}
 export async function saveStatus({id,token,previous,next,fetcher}){
  const fresh=await loadWorkbook(id,token,fetcher),plan=statusPlan(fresh,previous,next);
