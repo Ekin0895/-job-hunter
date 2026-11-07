@@ -52,3 +52,11 @@ test('Disabled Sheets API is distinguished from file permission refusal',async()
  await assert.rejects(googleRequest('https://example.com','x',{fetcher:async()=>({ok:false,status:403,json:async()=>({error:{message:'Service disabled',details:[{reason:'SERVICE_DISABLED'}]}})})}),/API Google Sheets est désactivée/);
  await assert.rejects(googleRequest('https://example.com','x',{fetcher:async()=>({ok:false,status:403,json:async()=>({error:{message:'The caller does not have permission'}})})}),/caller does not have permission/);
 });
+
+test('Fresh sessions use deployment defaults; valid saved settings remain preferred',async()=>{
+ const {resolveConfig}=await import('../work/data.mjs');
+ const defaults={sheet:'abcdefghijklmnopqrstuvwxyz',client:'123-test.apps.googleusercontent.com'};
+ assert.deepEqual(resolveConfig({},defaults),defaults);
+ assert.deepEqual(resolveConfig({sheet:'bad',client:'bad'},defaults),defaults);
+ assert.deepEqual(resolveConfig({sheet:'012345678901234567890123',client:'456-other.apps.googleusercontent.com'},defaults),{sheet:'012345678901234567890123',client:'456-other.apps.googleusercontent.com'});
+});

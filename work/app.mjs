@@ -1,12 +1,14 @@
-import {STATUSES,safeUrl,sheetId,clientId,summarize,loadWorkbook,saveStatus} from './data.mjs';
+import {DEFAULT_CONFIG} from './config.mjs';
+import {resolveConfig,STATUSES,safeUrl,sheetId,clientId,summarize,loadWorkbook,saveStatus} from './data.mjs';
 const $=id=>document.getElementById(id),e=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=value;return n};
-const KEY='job-hunter-work-config-v1';
+const KEY=DEFAULT_CONFIG.storageKey||'job-hunter-work-config-v1';
 let config={},token=null,expiresAt=0,data={jobs:[],history:[],activity:[]},view='candidates',busy=false,selected=null,updated=null,stale=false;
 const demo=new URLSearchParams(location.search).get('demo')==='1';
 try{config=JSON.parse(localStorage.getItem(KEY)||'{}')}catch{}
+config=resolveConfig(config,DEFAULT_CONFIG);
 // One-time provisioning link contains only public OAuth client ID + private file ID, never credentials or CV contents.
 try{const setup=new URLSearchParams(location.hash.slice(1));if(setup.has('sheet')){const id=sheetId(setup.get('sheet')),client=clientId(setup.get('client'));if(id&&client){config={sheet:id,client};localStorage.setItem(KEY,JSON.stringify(config));history.replaceState(null,'',location.pathname+location.search);}}}catch{}
-const defaultClient='203282657894-bott9r0mmbtjr1h3tlf4stemfagrmf2m.apps.googleusercontent.com';
+const defaultClient=DEFAULT_CONFIG.client;
 for(const s of STATUSES){const o=e('option','',s);o.value=s;$('statusFilter').append(o)}
 function notice(message,error=false){$('notice').textContent=message;$('notice').className='banner'+(error?' error':'');$('notice').hidden=!message;}
 function syncLabel(){const active=token&&Date.now()<expiresAt;$('syncLabel').textContent=demo?'Aperçu · données fictives':stale?'Actualisation échouée · données conservées':active?(updated?'Actualisé à '+updated.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'Google connecté'):'Connexion Google nécessaire';$('connect').textContent=active?'Reconnecter Google ↗':'Connecter Google ↗';$('refresh').disabled=busy;}

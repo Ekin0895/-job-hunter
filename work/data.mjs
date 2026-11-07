@@ -51,3 +51,5 @@ export async function saveStatus({id,token,previous,next,fetcher}){
  if(verified.jobs.find(j=>j.id===previous.id)?.status!==next)throw Error('Le statut n’a pas pu être confirmé après écriture. Actualisez avant de réessayer.');
  return verified;
 }
+
+export function resolveConfig(saved,defaults){return {sheet:sheetId(saved?.sheet)||sheetId(defaults?.sheet),client:clientId(saved?.client)||clientId(defaults?.client)};}

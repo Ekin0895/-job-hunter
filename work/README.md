@@ -12,7 +12,7 @@ Version de développement indépendante, dans `work/`. Elle ne remplace pas `ind
 
 ## Utilisation
 
-Servir les quatre fichiers `index.html`, `styles.css`, `app.mjs` et `data.mjs` depuis une origine HTTPS autorisée par le client OAuth Google. Ouvrir les réglages, renseigner le tableau et le client OAuth, puis connecter Google. Une configuration initiale peut également être transmise par fragment `#sheet=<ID>&client=<CLIENT_ID>` ; le fragment est retiré après mémorisation. Ne jamais inclure de jeton dans un lien.
+Servir les cinq fichiers `index.html`, `styles.css`, `app.mjs`, `data.mjs` et `config.mjs` depuis une origine HTTPS autorisée par le client OAuth Google. Ouvrir les réglages, renseigner le tableau et le client OAuth, puis connecter Google. Une configuration initiale peut également être transmise par fragment `#sheet=<ID>&client=<CLIENT_ID>` ; le fragment est retiré après mémorisation. Ne jamais inclure de jeton dans un lien.
 
 Le compte doit déjà avoir accès au tableau. Le scope demandé est `spreadsheets`, utilisé pour lire le suivi et modifier les statuts. Aucun document n'est rendu public. Les réglages non secrets restent dans localStorage ; le jeton d'accès ne reste qu'en mémoire. Les candidatures ne sont pas mises en cache entre sessions. Une reconnexion peut être nécessaire après expiration du jeton.
 
@@ -40,3 +40,9 @@ node --test tests/work-app.test.mjs tests/workflow-core.test.mjs
 La lecture avant écriture protège d'un changement déjà visible, sans être un compare-and-swap atomique Google Sheets. Les enregistrements sont relus après l'écriture ; aucun retry automatique après un timeout. Une garantie de concurrence stricte exigerait un mécanisme transactionnel supplémentaire.
 
 L'aperçu `?demo=1` montre uniquement des exemples fictifs. Il ne prouve ni une connexion Google, ni une recherche réelle, ni une génération documentaire. Aucune API d'IA payante n'est appelée par cette interface.
+
+## Configuration du site privé
+
+Le déploiement privé fournit le tableau et le client OAuth dans `config.mjs`. Le dépôt public contient uniquement un modèle sans identifiant de tableau personnel. Une session neuve utilise ces valeurs validées automatiquement ; une configuration utilisateur valide reste prioritaire. Les jetons Google restent en mémoire uniquement : une reconnexion est encore nécessaire après fermeture ou expiration. Aucun stockage persistant de jeton n’a été ajouté.
+
+Lecture et écriture réelles vérifiées le 7 novembre 2026 : les trois dossiers et les 45 offres historiques se chargent dans le site publié ; statut Numberly modifié temporairement en « À analyser », relu puis restauré et relu en « À vérifier ». L’exécution quotidienne autonome reste à valider.
