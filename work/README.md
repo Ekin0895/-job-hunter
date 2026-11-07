@@ -50,3 +50,11 @@ Lecture et écriture réelles vérifiées le 7 novembre 2026 : les trois dossier
 ## Refonte visuelle sombre — 7 novembre 2026
 
 Palette bleu nuit / vert menthe issue de l’ancienne application, cartes et états plus lisibles, icônes SVG locales, navigation tactile fixe et champs de saisie adaptés à iPhone. Le module d’accès Google, la préconfiguration privée et le schéma du registre restent les mêmes. Vérification sur écran de bureau et viewport de 390 px : absence de débordement horizontal, filtres et ouverture de détail. Les 14 tests du nouveau parcours passent ; les anciens tests V10 restent indépendants.
+
+## Graphiques et identité
+
+Publier tout le dossier `work/` : les modules `insights.mjs`, le manifeste et `assets/` sont nécessaires. Le graphique de suivi réunit historique et sélection avec déduplication par ID ; les statuts inconnus restent dans Autres. Le graphique documentaire porte seulement sur les liens de la sélection, sans présumer l’absence de documents de l’historique. Il ne certifie pas la relecture. Les graphiques sont repliés au départ sur mobile pour laisser les offres accessibles.
+
+Deux logos officiels locaux identifiés par entreprise et domaine exact ; initiales en secours si inconnus ou indisponibles. Aucun service de logo tiers ne reçoit les entreprises consultées. La provenance des actifs est dans `assets/SOURCES.md`. Icône originale Job Hunter, exports PNG iOS/manifest/favicon. Pour remplacer l’icône d’un ancien raccourci iPhone, le supprimer puis le recréer peut être nécessaire.
+
+Dix-sept tests passent, dont déduplication des graphiques, statuts inconnus et absence de chiffres fictifs à vide. Tests responsive à 390px : ouverture/repli des graphiques, pas de débordement horizontal.
