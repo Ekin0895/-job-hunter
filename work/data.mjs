@@ -37,7 +37,7 @@ export async function googleRequest(url,token,{fetcher=fetch,...options}={}){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
  try{const res=await fetcher(url,{...options,signal:controller.signal,headers:{Authorization:'Bearer '+token,...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})},cache:'no-store'});
   let data;try{data=await res.json()}catch{throw Error('Réponse Google illisible. Aucune réussite confirmée.');}
-  if(!res.ok){const e=Error(res.status===401?'Votre connexion Google a expiré. Reconnectez-vous.':res.status===403?'Google refuse cet accès. Vérifiez le compte et les autorisations.':res.status===429?'Quota Google atteint. Réessayez plus tard.':data.error?.message||'Erreur Google '+res.status);e.code=res.status;throw e;}
+  if(!res.ok){const reason=data.error?.details?.find(d=>d.reason)?.reason||'';const forbidden=reason==='SERVICE_DISABLED'?'L’API Google Sheets est désactivée dans le projet Google Cloud. Activez-la, puis actualisez.':('Google refuse cet accès. '+(data.error?.message||'Vérifiez le compte et les autorisations.'));const e=Error(res.status===401?'Votre connexion Google a expiré. Reconnectez-vous.':res.status===403?forbidden:res.status===429?'Quota Google atteint. Réessayez plus tard.':data.error?.message||'Erreur Google '+res.status);e.code=res.status;throw e;}
   return data;
  }catch(e){if(e.name==='AbortError')throw Error('Délai Google dépassé. Actualisez pour vérifier le résultat avant toute nouvelle tentative.');throw e}finally{clearTimeout(timer)}
 }

@@ -47,3 +47,8 @@ test('write is never automatically replayed, and success requires readback',asyn
 test('Google permission and quota errors are explicit failures',async()=>{
  for(const status of [401,403,429])await assert.rejects(googleRequest('https://example.com','x',{fetcher:async()=>({ok:false,status,json:async()=>({})})}));
 });
+
+test('Disabled Sheets API is distinguished from file permission refusal',async()=>{
+ await assert.rejects(googleRequest('https://example.com','x',{fetcher:async()=>({ok:false,status:403,json:async()=>({error:{message:'Service disabled',details:[{reason:'SERVICE_DISABLED'}]}})})}),/API Google Sheets est désactivée/);
+ await assert.rejects(googleRequest('https://example.com','x',{fetcher:async()=>({ok:false,status:403,json:async()=>({error:{message:'The caller does not have permission'}})})}),/caller does not have permission/);
+});
